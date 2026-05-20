@@ -37,12 +37,18 @@ split(data_basic$CASE, data_basic$IF01) # IF01 gives response to consent; 501 + 
 table(data_basic$CN05, useNA = "ifany") # taken seriously by 378; not taken seriously by 2; 10 that did not answer
 
 ##
-# attention checks
+# attention checks beginning
 ##
 
 table(data_basic$CN09, useNA = "ifany") # 14 that answered Manip_Check 1 wrong; 7 that did not answer at all
 table(data_basic$CN15, useNA = "ifany") # 109 that answered Manip_Check 2 wrong; 7 that did not answer at all
 
+##
+# attention checks hidden
+##
+
+table(data_basic$BF01_22, useNA = "ifany") # 2 that answered Manip_Check BFI-K wrong; 10 that did not answer at all; correct is 5
+table(data_basic$CS01_25, useNA = "ifany") # 7 that answered Manip_Check BFI-K wrong; 10 that did not answer at all; correct is 1
 
 ###########################
 # Computing variables
