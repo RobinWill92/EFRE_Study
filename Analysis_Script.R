@@ -37,6 +37,14 @@ split(data_basic$CASE, data_basic$IF01) # IF01 gives response to consent; 501 + 
 table(data_basic$CN05, useNA = "ifany") # taken seriously by 378; not taken seriously by 2; 10 that did not answer
 
 ##
+# technical problems
+##
+
+table(data_basic$CN03, useNA = "ifany") # 374 without technical difficulties; 6 with technical difficulties; ; 10 that did not answer
+
+
+
+##
 # attention checks beginning
 ##
 
@@ -131,7 +139,44 @@ data_basic %>%
 # BFI-K (Big Five)
 ##
 
-TESTTESTTESTJULEJULE
+
+# to be reverse-coded: ???
+
+# occuring values
+data_basic %>%
+  select(BF01_01, BF01_02, BF01_03, BF01_04, BF01_05, BF01_06, BF01_07, BF01_08, BF01_09, BF01_10,
+         BF01_11, BF01_12, BF01_13, BF01_14, BF01_15, BF01_16, BF01_17, BF01_18, BF01_19, BF01_20,
+         BF01_21) %>%
+  unlist() %>%
+  unique() 
+
+#reverse code
+
+
+##
+# CN01 --> Wie viel wissen Sie bereits über Automatisierung?
+##
+
+
+
+##
+# CN02 --> Wie viel Erfahrung haben Sie bereits mit Automatisierung?
+##
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
