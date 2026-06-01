@@ -6,6 +6,7 @@
 #necessary packages
 library(dplyr)
 library(psych)
+library(stringr)
 
 
 #importing data from csv file via script
@@ -152,16 +153,101 @@ data_basic %>%
 
 #reverse code
 
+# correlation matrix to see whether reverse items are scored in correct way
+# Cronbach's alpha
+
 
 ##
 # CN01 --> Wie viel wissen Sie bereits über Automatisierung?
 ##
+# change factor to numeric
 
+data_basic <- data_basic %>%
+  mutate(
+    CN01 = str_extract(as.character(CN01), "\\d+") %>%
+      as.numeric()
+  )
+
+# occuring values
+data_basic %>%
+  select(CN01) %>%
+  unlist() %>%
+  unique() 
 
 
 ##
 # CN02 --> Wie viel Erfahrung haben Sie bereits mit Automatisierung?
 ##
+
+
+data_basic <- data_basic %>%
+  mutate(
+    CN02 = str_extract(as.character(CN02), "\\d+") %>%
+      as.numeric()
+  )
+
+# occuring values
+data_basic %>%
+  select(CN02) %>%
+  unlist() %>%
+  unique() 
+
+
+##
+# Copinginventar
+##
+
+
+# to be reverse-coded: ???
+
+# occuring values
+data_basic %>%
+  select(CS01_01, CS01_02, CS01_03, CS01_04, CS01_05, CS01_06, CS01_07, CS01_08, CS01_09, CS01_10,
+         CS01_11, CS01_12, CS01_13, CS01_14, CS01_15, CS01_16, CS01_17, CS01_18, CS01_19, CS01_20,
+         CS01_22, CS01_22, CS01_23, CS01_24) %>%
+  unlist() %>%
+  unique() 
+
+#reverse code
+
+# correlation matrix to see whether reverse items are scored in correct way
+
+data_basic %>%
+  select(
+    CS01_01, CS01_02, CS01_03, CS01_04, CS01_05, CS01_06, CS01_07, CS01_08, CS01_09, CS01_10,
+    CS01_11, CS01_12, CS01_13, CS01_14, CS01_15, CS01_16, CS01_17, CS01_18, CS01_19, CS01_20,
+    CS01_22, CS01_22, CS01_23, CS01_24) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+# Cronbach's alpha
+
+data_basic %>%
+  select(
+    CS01_01, CS01_02, CS01_03, CS01_04, CS01_05, CS01_06, CS01_07, CS01_08, CS01_09, CS01_10,
+    CS01_11, CS01_12, CS01_13, CS01_14, CS01_15, CS01_16, CS01_17, CS01_18, CS01_19, CS01_20,
+    CS01_22, CS01_22, CS01_23, CS01_24  ) %>%  psych::alpha()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
