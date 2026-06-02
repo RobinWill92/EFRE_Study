@@ -82,7 +82,7 @@ table(data_basic$DM06)
 # ADS-L (Allgemeine Depressionsskala)
 #
 
-# scale on sosci seems to already have items as reverse-coded
+# scale on sosci seems to already have items as reverse-coded ?
 
 # occuring values
 data_basic %>%
@@ -521,14 +521,14 @@ data_basic %>%
 # occuring values
 
 data_basic %>%
-  select(SL04_01, SL04_02, SL04_09,      # prosocial items
-         SL04_08, SL04_04, SL04_10) %>%  # antisocial items
+  select(SL04_01, SL04_02, SL04_09,      # cooperative items
+         SL04_08, SL04_04, SL04_10) %>%  # reactive items
   unlist() %>%
   unique() 
 
 
 #######
-# Employees Szenario Items
+# Employee Szenario Items
 #######
 
 # to be reverse-coded: ???
@@ -536,8 +536,8 @@ data_basic %>%
 # occuring values
 
 data_basic %>%
-  select(SL05_02, SL05_03, SL05_04,     # prosocial items
-         SL05_01, SL05_05, SL05_06) %>%  # antisocial items
+  select(SL05_02, SL05_03, SL05_04,      # cooperative items
+         SL05_01, SL05_05, SL05_06) %>%  # reactive items
   unlist() %>%
   unique() 
 
@@ -550,40 +550,6 @@ data_basic %>%
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-##
-#
-##
-
-# to be reverse-coded: ???
-
-# occuring values
-
-#reverse code
-
-# correlation matrix to see whether reverse items are scored in correct way
-
-# Cronbach's alpha
-
-
-
-
-
-
-
-
-testest
 
 
 
