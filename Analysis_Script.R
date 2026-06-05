@@ -161,6 +161,7 @@ data_basic %>%
 
 
 # to be reverse-coded: Items 1,2,8,9,11,12,17,21
+#scales: Extraversion (1,6,11,16), Agreeableness (2,7,12,17), Conscientiousness (3,8,13,18), Neuroticism (4,9,14,19), Openess (5,10,15,20,21)
 
 # occuring values
 data_basic %>%
@@ -171,6 +172,12 @@ data_basic %>%
   unique() 
 
 #reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(BF01_01, BF01_02,BF01_08, BF01_09, BF01_11, BF01_12, BF01_17, BF01_21),
+    ~ ifelse(is.na(.x), NA, 6 - as.numeric(.x))
+  ))
+
 
 # correlation matrix to see whether reverse items are scored in correct way
 # Cronbach's alpha
