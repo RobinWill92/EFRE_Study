@@ -622,7 +622,7 @@ data_basic %>%
 
 
 #######
-# Scenario Psychopathy
+# Scenario Psychopathy----
 #######
 
 # to be reverse-coded: _10,_11
@@ -661,7 +661,7 @@ data_basic %>%
 
 
 #######
-# Scenario Trust
+# Scenario Trust----
 #######
 
 # to be reverse-coded: _14,15
