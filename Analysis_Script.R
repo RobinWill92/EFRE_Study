@@ -229,7 +229,6 @@ data_basic %>%
   unlist() %>%
   unique() 
 
-#reverse code
 
 # correlation matrix to see whether reverse items are scored in correct way
 
@@ -251,11 +250,11 @@ data_basic %>%
 
 
 ##
-# Naughty Nine !!!!nur 8 items!!!! ??????
+# Naughty Nine !!!!only 8 items!!!! (??????) (last narcissism item is missing)
 ##
 
 
-# to be reverse-coded: ???
+# to be reverse-coded: none
 
 # occuring values
 data_basic %>%
