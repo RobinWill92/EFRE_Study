@@ -156,7 +156,7 @@ data_basic %>%
 ##
 
 
-# to be reverse-coded: ???
+# to be reverse-coded: Items 1,2,8,9,11,12,17,21
 
 # occuring values
 data_basic %>%
