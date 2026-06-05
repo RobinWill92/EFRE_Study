@@ -120,7 +120,23 @@ data_basic %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 
-
+#5. correlations with leadership scenarios
+#depression
+data_basic %>%
+  select(depression, SL04_01, SL04_02, SL04_09,
+         SL04_08, SL04_04, SL04_10) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#psychopathy
+data_basic %>%
+  select(psychopathy, SL04_01, SL04_02, SL04_09,
+         SL04_08, SL04_04, SL04_10) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#trust
+data_basic %>%
+  select(trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_01, SL04_02, SL04_09,
+         SL04_08, SL04_04, SL04_10) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
 
 
 
