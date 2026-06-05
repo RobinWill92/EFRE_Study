@@ -82,7 +82,7 @@ table(data_basic$DM06)
 # ADS-L (Allgemeine Depressionsskala)
 #
 
-# scale on sosci seems to already have items as reverse-coded ?
+# scale on sosci seems to already have items as reverse-coded --> already reverse coded on SoSci: Items 4,8,12,16
 
 # occuring values
 data_basic %>%
