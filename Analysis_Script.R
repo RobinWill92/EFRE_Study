@@ -3,7 +3,7 @@
 # 15.05.26
 # #############################################
 
-#necessary packages
+#necessary packages----
 library(dplyr)
 library(psych)
 library(stringr)
@@ -16,7 +16,7 @@ source("import_efre_hyko_2026-05-15_14-18.r")
 data_basic <- ds # data_basic is default name of dataset
 
 # ######################
-# preparing and cleaning dataset
+# preparing and cleaning dataset-----
 # ######################
 
 
@@ -46,7 +46,7 @@ table(data_basic$CN03, useNA = "ifany") # 374 without technical difficulties; 6 
 
 
 ##
-# attention checks beginning
+# attention checks beginning-----
 ##
 
 table(data_basic$CN09, useNA = "ifany") # 14 that answered Manip_Check 1 wrong; 7 that did not answer at all
@@ -60,7 +60,7 @@ table(data_basic$BF01_22, useNA = "ifany") # 2 that answered Manip_Check BFI-K w
 table(data_basic$CS01_25, useNA = "ifany") # 7 that answered Manip_Check BFI-K wrong; 10 that did not answer at all; correct is 1
 
 ##
-# Demographics
+# Demographics-----
 ##
 
 # Sex
@@ -75,11 +75,11 @@ table(data_basic$DM06)
 ### note: there are more detailed demos such as current job etc.; can be added here
 
 ###########################
-# Computing variables
+# Computing variables-----
 ###########################
 
 ##
-# ADS-L (Allgemeine Depressionsskala)
+# ADS-L (Allgemeine Depressionsskala)-----
 #
 
 # scale on sosci seems to already have items as reverse-coded --> already reverse coded on SoSci: Items 4,8,12,16
@@ -114,7 +114,7 @@ data_basic %>%
 
 
 ##
-# AT (Avatar Trust Scale: Automation)
+# ATS (Avatar Trust Scale: Automation)----
 #
 
 # are there subscales to be differentiated between?
@@ -140,23 +140,59 @@ data_basic <- data_basic %>%
   ))
 
 # correlation matrix to see whether reverse items are scored in correct way
-
+#Willingness to Interact
 data_basic %>%
   select(
-    AT01_01, AT01_02, AT01_03, AT01_04, AT01_05, AT01_06, AT01_07, AT01_08, AT01_09, AT01_10,
-    AT01_11, AT01_12, AT01_13, AT01_14, AT01_15, AT01_16, AT01_17, AT01_18) %>%
+    AT01_01, AT01_02, AT01_03) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Feeling Secure with the Avatar
+data_basic %>%
+  select(
+    AT01_04, AT01_05, AT01_06) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Propensity to Trust Humans
+data_basic %>%
+  select(
+    AT01_07, AT01_08, AT01_09, AT01_10, AT01_11) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Propensity to Trust Avatars
+data_basic %>%
+  select(
+    AT01_12, AT01_13, AT01_14, AT01_15) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Avatar Literacy
+data_basic %>%
+  select(
+    AT01_16, AT01_17, AT01_18) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
-# Cronbach's alpha
 
+# Cronbach's alpha
+#Willingness to Interact
 data_basic %>%
   select(
-    AT01_01, AT01_02, AT01_03, AT01_04, AT01_05, AT01_06, AT01_07, AT01_08, AT01_09, AT01_10,
-    AT01_11, AT01_12, AT01_13, AT01_14, AT01_15, AT01_16, AT01_17, AT01_18  ) %>%  psych::alpha()
+    AT01_01, AT01_02, AT01_03) %>%  psych::alpha()
+#Feeling Secure With the Avatar
+data_basic %>%
+  select(
+    AT01_04, AT01_05, AT01_06) %>%  psych::alpha()
+#Propensity to Trust Humans
+data_basic %>%
+  select(
+    AT01_07, AT01_08, AT01_09, AT01_10, AT01_11) %>%  psych::alpha()
+#Propensity to Trust Avatars
+data_basic %>%
+  select(
+    AT01_12, AT01_13, AT01_14, AT01_15) %>%  psych::alpha()
+#Avatar Literacy
+data_basic %>%
+  select(
+    AT01_16, AT01_17, AT01_18) %>%  psych::alpha()
+
 
 
 ##
-# BFI-K (Big Five)
+# BFI-K (Big Five)----
 ##
 
 
@@ -269,7 +305,7 @@ data_basic %>%
 
 
 ##
-# Copinginventar
+# CISS - Copinginventar----
 ##
 
 
@@ -321,7 +357,7 @@ data_basic %>%
 
 
 ##
-# Naughty Nine !!!!only 8 items!!!! (??????) (last narcissism item is missing)
+# Naughty Nine - Dark Triad!!!!only 8 items!!!! (??????) (last narcissism item is missing)----
 ##
 
 
@@ -362,7 +398,7 @@ data_basic %>%
 
 
 ##
-# Self-efficiacy
+# Self-efficiacy----
 ##
 
 # to be reverse-coded: Item 38
@@ -439,7 +475,7 @@ data_basic %>%
 
 
 ##
-# PTM-R Prosocial Tendencies
+# PTM-R Prosocial Tendencies----
 ##
 
 # to be reverse-coded: 4,10,16,20,23
@@ -474,7 +510,7 @@ data_basic %>%
 
 
 ##
-# Trait Anxiety
+# Trait Anxiety----
 ##
 
 # to be reverse-coded: ???
@@ -505,7 +541,7 @@ data_basic %>%
 
 
 ##
-# Trait Anger
+# Trait Anger----
 ##
 
 # to be reverse-coded: ???
@@ -520,10 +556,11 @@ data_basic %>%
 
 
 #######
-# Scenario Depression
+# Scenario Depression----
 #######
 
 # to be reverse-coded: _08, _04
+
 
 # occuring values
 
@@ -536,18 +573,51 @@ data_basic %>%
   unlist() %>%
   unique() 
 
-#
-# correlation + Cronbach for Scenario 1
+#reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(SC06_08, SC12_08, SC13_08, SC14_08, SC15_08, SC06_04, SC12_04, SC13_04, SC14_04, SC15_04),
+    ~ ifelse(is.na(.x), NA, 102 - as.numeric(.x))
+  ))
 
+
+
+# correlation + Cronbach for Scenario 1
+#Scenario 1
 data_basic %>%
   select(SC06_01, SC06_02, SC06_08, SC06_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-
 # Cronbach's alpha
-
 data_basic %>%
   select(SC06_01, SC06_02, SC06_08, SC06_04) %>%  psych::alpha()
-
+#Scenario 2
+data_basic %>%
+  select(SC12_01, SC12_02, SC12_08, SC12_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC12_01, SC12_02, SC12_08, SC12_04) %>%  psych::alpha()
+#Scenario 3
+data_basic %>%
+  select(SC13_01, SC13_02, SC13_08, SC13_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC13_01, SC13_02, SC13_08, SC13_04) %>%  psych::alpha()
+#Scenario 4
+data_basic %>%
+  select(SC14_01, SC14_02, SC14_08, SC14_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC14_01, SC14_02, SC14_08, SC14_04) %>%  psych::alpha()
+#Scenario 5
+data_basic %>%
+  select(SC15_01, SC15_02, SC15_08, SC15_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC15_01, SC15_02, SC15_08, SC15_04) %>%  psych::alpha()
 
 
 
@@ -556,6 +626,14 @@ data_basic %>%
 #######
 
 # to be reverse-coded: _10,_11
+#reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(SC07_10, SC16_10, SC17_10, SC18_10, SC19_10, SC07_11, SC16_11, SC17_11, SC18_11, SC19_11),
+    ~ ifelse(is.na(.x), NA, 102 - as.numeric(.x))
+  ))
+
+##Achtung: negative Korrelation zwischen harten Entscheidungen und vor Aufgaben drücken
 
 # occuring values
 
@@ -587,6 +665,13 @@ data_basic %>%
 #######
 
 # to be reverse-coded: _14,15
+#reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(SC08_14, SC20_14, SC21_14, SC22_14, SC23_14, SC08_15, SC20_15, SC21_15, SC22_15, SC23_15),
+    ~ ifelse(is.na(.x), NA, 102 - as.numeric(.x))
+  ))
+
 
 # occuring values
 
