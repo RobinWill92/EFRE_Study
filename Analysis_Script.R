@@ -217,7 +217,9 @@ data_basic %>%
 ##
 
 
-# to be reverse-coded: ???
+# to be reverse-coded: none
+#subscales: Aufgabenorientiert (Items: 5,9,12,14,15,19,23,24), Emotionsorientiert (Items: 2,3,7,8,11,13,16,21), Vermeidungsorientiert (Sozial-ablenkungsorientiert + Zerstreuungsorientiert), 
+#sozial-ablenkungsorientiert (Items: 1, 17, 18, 20), Zerstreuungsorientiert (Items 4,6,10,22)
 
 # occuring values
 data_basic %>%
