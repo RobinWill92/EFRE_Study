@@ -358,7 +358,7 @@ data_basic %>%
 # PTM-R Prosocial Tendencies
 ##
 
-# to be reverse-coded: ???
+# to be reverse-coded: 4,10,16,20,23
 
 # occuring values
 
@@ -368,6 +368,13 @@ data_basic %>%
   unique() 
 
 #reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(PT01_04, PT01_10, PT01_16, PT01_20, PT01_23),
+    ~ ifelse(is.na(.x), NA, 6 - as.numeric(.x))
+  ))
+
+
 
 # correlation matrix to see whether reverse items are scored in correct way
 
