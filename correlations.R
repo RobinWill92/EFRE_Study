@@ -65,7 +65,7 @@ trust_literacy <- data_basic %>%
   pull(trust_literacy)
 hist(trust_literacy)
 
-
+#3. other variables
 #Machiavellianism----
 machiavellianism <- data_basic %>%
   mutate(machiavellianism = rowMeans(across(c(DT01_01, DT01_04, DT01_07)), na.rm = TRUE)) %>%
@@ -76,6 +76,34 @@ narcissism <- data_basic %>%
   mutate(narcissism = rowMeans(across(c(DT01_03, DT01_06)), na.rm = TRUE)) %>%
   pull(narcissism)
 hist(narcissism)
+
+#big5-----
+#extraversion
+extraversion <- data_basic %>%
+  mutate(extraversion = rowMeans(across(c(BF01_01, BF01_06, BF01_11, BF01_16)), na.rm = TRUE)) %>%
+  pull(extraversion)
+hist(extraversion)
+#agreeableness
+agreeablenesss <- data_basic %>%
+  mutate(agreeablenesss = rowMeans(across(c(BF01_02, BF01_07, BF01_12, BF01_17)), na.rm = TRUE)) %>%
+  pull(agreeablenesss)
+hist(agreeablenesss)
+#conscientiousness
+conscientiousness <- data_basic %>%
+  mutate(conscientiousness = rowMeans(across(c(BF01_03, BF01_08, BF01_13, BF01_18)), na.rm = TRUE)) %>%
+  pull(conscientiousness)
+hist(conscientiousness)
+#neuroticism
+neuroticism <- data_basic %>%
+  mutate(neuroticism = rowMeans(across(c(BF01_04, BF01_09, BF01_14, BF01_19)), na.rm = TRUE)) %>%
+  pull(neuroticism)
+hist(neuroticism)
+#openess
+openess <- data_basic %>%
+  mutate(openess = rowMeans(across(c(BF01_05, BF01_10, BF01_15, BF01_20, BF01_21)), na.rm = TRUE)) %>%
+  pull(openess)
+hist(openess)
+
 
 
 
