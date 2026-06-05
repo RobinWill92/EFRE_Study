@@ -180,7 +180,56 @@ data_basic <- data_basic %>%
 
 
 # correlation matrix to see whether reverse items are scored in correct way
+#extraversion
+data_basic %>%
+  select(
+    BF01_01, BF01_06, BF01_11, BF01_16) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#agreeableness
+data_basic %>%
+  select(
+    BF01_02, BF01_07, BF01_12, BF01_17) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#conscientiousness
+data_basic %>%
+  select(
+    BF01_03, BF01_08, BF01_13, BF01_18) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#neuroticism
+data_basic %>%
+  select(
+    BF01_04, BF01_09, BF01_14, BF01_19) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#openess
+data_basic %>%
+  select(
+    BF01_05, BF01_10, BF01_15, BF01_20, BF01_21) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+
+
 # Cronbach's alpha
+#extraversion
+data_basic %>%
+  select(
+    BF01_01, BF01_06, BF01_11, BF01_16  ) %>%  psych::alpha()
+#agreeableness
+data_basic %>%
+  select(
+    BF01_02, BF01_07, BF01_12, BF01_17  ) %>%  psych::alpha()
+#conscientiousness
+data_basic %>%
+  select(
+    BF01_03, BF01_08, BF01_13, BF01_18  ) %>%  psych::alpha()
+#neuroticism
+data_basic %>%
+  select(
+    BF01_04, BF01_09, BF01_14, BF01_19  ) %>%  psych::alpha()
+#openess
+data_basic %>%
+  select(
+    BF01_05, BF01_10, BF01_15, BF01_20, BF01_21) %>%  psych::alpha()
+
 
 
 ##
