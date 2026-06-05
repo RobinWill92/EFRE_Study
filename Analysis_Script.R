@@ -439,7 +439,7 @@ data_basic %>%
 # Scenario Depression
 #######
 
-# to be reverse-coded: ???
+# to be reverse-coded: _08, _04
 
 # occuring values
 
@@ -471,7 +471,7 @@ data_basic %>%
 # Scenario Psychopathy
 #######
 
-# to be reverse-coded: ???
+# to be reverse-coded: _10,_11
 
 # occuring values
 
@@ -502,7 +502,7 @@ data_basic %>%
 # Scenario Trust
 #######
 
-# to be reverse-coded: ???
+# to be reverse-coded: _14,15
 
 # occuring values
 
