@@ -287,23 +287,33 @@ data_basic %>%
 
 
 # correlation matrix to see whether reverse items are scored in correct way
-
+#task-oriented
 data_basic %>%
   select(
-    CS01_01, CS01_02, CS01_03, CS01_04, CS01_05, CS01_06, CS01_07, CS01_08, CS01_09, CS01_10,
-    CS01_11, CS01_12, CS01_13, CS01_14, CS01_15, CS01_16, CS01_17, CS01_18, CS01_19, CS01_20,
-    CS01_22, CS01_22, CS01_23, CS01_24) %>%
+    CS01_05, CS01_09, CS01_12, CS01_14, CS01_15, CS01_19, CS01_23, CS01_24) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#emotion-oriented
+data_basic %>%
+  select(
+    CS01_02, CS01_03, CS01_07, CS01_08, CS01_11, CS01_13, CS01_16, CS01_21) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#avoidance-oriented
+data_basic %>%
+  select(
+    CS01_01, CS01_17, CS01_18, CS01_20, CS01_04, CS01_06, CS01_10, CS01_22) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
-# Cronbach's alpha
 
+# Cronbach's alpha
+#task-oriented
 data_basic %>%
   select(
-    CS01_01, CS01_02, CS01_03, CS01_04, CS01_05, CS01_06, CS01_07, CS01_08, CS01_09, CS01_10,
-    CS01_11, CS01_12, CS01_13, CS01_14, CS01_15, CS01_16, CS01_17, CS01_18, CS01_19, CS01_20,
-    CS01_22, CS01_22, CS01_23, CS01_24  ) %>%  psych::alpha()
-
-
+    CS01_05, CS01_09, CS01_12, CS01_14, CS01_15, CS01_19, CS01_23, CS01_24  ) %>%  psych::alpha()
+#emotion-oriented
+data_basic %>%
+  select(
+    CS01_02, CS01_03, CS01_07, CS01_08, CS01_11, CS01_13, CS01_16, CS01_21  ) %>%  psych::alpha()
+#avoidance-oriented
 
 ##
 # Naughty Nine !!!!only 8 items!!!! (??????) (last narcissism item is missing)
