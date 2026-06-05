@@ -118,6 +118,10 @@ data_basic %>%
 #
 
 # are there subscales to be differentiated between?
+# --> Careful: not all subscales include all items, wording was changed for some items; 
+# subscales: Items 1-3 (Specific Trust: Willingness to Interact), Items 4-6 (Specific Trust: Feeling Secure with the Avatar), 
+# Items 7-11 (General Trust: Propensity to Trust Humans -> scale complete), Items 12-15 (General Trust: Propensity to Trust Avatars),
+# Items 16-18 (General Trust: Avatar Literacy)
 # to be reverse-coded: 04, 05, 06, 07, 09, 11, 17, 18
 
 # occuring values
