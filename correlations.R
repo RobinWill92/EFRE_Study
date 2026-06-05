@@ -17,8 +17,9 @@ data_basic <- data_basic %>%
 table(attention_fail_overall)
 ## no one failed more than 2 attention checks
 
-table(CN03)
+
 #exclude people with technical problems
+table(CN03)
 data_basic <- data_basic %>%
   filter(CN03 == "Nein")
 
