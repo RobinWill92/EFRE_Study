@@ -255,7 +255,7 @@ data_basic %>%
 
 
 # to be reverse-coded: none
-#subscales: Machiavellianism (Items: 1,4,7), Psychopathy (Items: 2,5,8), Narcissism (Items: 3, 6)
+#subscales: Machiavellianism (Items: 1,4,7), Psychopathy (Items: 2,5,8), Narcissism (Items: 3,6)
 
 # occuring values
 data_basic %>%
