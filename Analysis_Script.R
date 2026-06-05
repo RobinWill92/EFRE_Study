@@ -263,7 +263,6 @@ data_basic %>%
   unlist() %>%
   unique() 
 
-#reverse code
 
 # correlation matrix to see whether reverse items are scored in correct way
 
@@ -282,7 +281,7 @@ data_basic %>%
 # Self-efficiacy
 ##
 
-# to be reverse-coded: ???
+# to be reverse-coded: Item 38
 
 # occuring values
 
@@ -292,6 +291,11 @@ data_basic %>%
   unique() 
 
 #reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(GS01_38),
+    ~ ifelse(is.na(.x), NA, 7 - as.numeric(.x))
+  ))
 
 # correlation matrix to see whether reverse items are scored in correct way
 
