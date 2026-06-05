@@ -314,6 +314,11 @@ data_basic %>%
   select(
     CS01_02, CS01_03, CS01_07, CS01_08, CS01_11, CS01_13, CS01_16, CS01_21  ) %>%  psych::alpha()
 #avoidance-oriented
+data_basic %>%
+  select(
+    CS01_01, CS01_17, CS01_18, CS01_20, CS01_04, CS01_06, CS01_10, CS01_22  ) %>%  psych::alpha()
+
+
 
 ##
 # Naughty Nine !!!!only 8 items!!!! (??????) (last narcissism item is missing)
@@ -331,16 +336,29 @@ data_basic %>%
 
 
 # correlation matrix to see whether reverse items are scored in correct way
-
+#Machiavellianism
 data_basic %>%
-  select(DT01_01, DT01_02, DT01_03, DT01_04, DT01_05, DT01_06, DT01_07, DT01_08) %>%
+  select(DT01_01, DT01_04, DT01_07) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Psychopathy
+data_basic %>%
+  select(DT01_02, DT01_05, DT01_08) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#Narcissism
+data_basic %>%
+  select(DT01_03, DT01_06) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 # Cronbach's alpha
-
+#Machiavellianism
 data_basic %>%
-  select(DT01_01, DT01_02, DT01_03, DT01_04, DT01_05, DT01_06, DT01_07, DT01_08) %>%  psych::alpha()
-
+  select(DT01_01, DT01_04, DT01_07) %>%  psych::alpha()
+#Psychopathy
+data_basic %>%
+  select(DT01_02, DT01_05, DT01_08) %>%  psych::alpha()
+#Narcissism
+data_basic %>%
+  select(DT01_03, DT01_06) %>%  psych::alpha()
 
 
 ##
