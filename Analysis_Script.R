@@ -510,10 +510,10 @@ data_basic %>%
 
 
 ##
-# Trait Anxiety----
+# STAI: Trait Anxiety----
 ##
 
-# to be reverse-coded: ???
+# to be reverse-coded: Items 1,6,7,10,13,16,19
 
 # occuring values
 
@@ -524,6 +524,14 @@ data_basic %>%
   unique() 
 
 #reverse code
+data_basic <- data_basic %>%
+  mutate(across(
+    c(SA01_01, SA01_06, SA01_07, SA01_10, SA01_13, SA01_16, SA01_19),
+    ~ ifelse(is.na(.x), NA, 5 - as.numeric(.x))
+  ))
+
+
+
 
 # correlation matrix to see whether reverse items are scored in correct way
 
@@ -544,7 +552,7 @@ data_basic %>%
 # Trait Anger----
 ##
 
-# to be reverse-coded: ???
+# to be reverse-coded: none
 
 # occuring values
 
@@ -716,8 +724,6 @@ data_basic %>%
 #######
 # Employee Szenario Items
 #######
-
-# to be reverse-coded: ???
 
 # occuring values
 
