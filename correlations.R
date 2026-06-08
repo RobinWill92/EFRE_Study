@@ -3,6 +3,8 @@
 #####################
 library(dplyr)
 library(psych)
+library(effectsize)
+
 attach(data_basic)
 ##1. exclude people with more than 2 failed attention checks----
 #attention checks: BF01_22, CN09, CN15
@@ -33,9 +35,9 @@ hist(psychopathy)
 #depression----
 data_basic <- data_basic %>%
   mutate(depression = rowMeans(across(c( HU_ADS_01, HU_ADS_02, HU_ADS_03, HU_ADS_04, HU_ADS_05,
-                                          HU_ADS_06, HU_ADS_07, HU_ADS_08, HU_ADS_09, HU_ADS_10,
-                                          HU_ADS_11, HU_ADS_12, HU_ADS_13, HU_ADS_14, HU_ADS_15,
-                                          HU_ADS_16, HU_ADS_17, HU_ADS_18, HU_ADS_19, HU_ADS_20)), na.rm = TRUE))
+                                         HU_ADS_06, HU_ADS_07, HU_ADS_08, HU_ADS_09, HU_ADS_10,
+                                         HU_ADS_11, HU_ADS_12, HU_ADS_13, HU_ADS_14, HU_ADS_15,
+                                         HU_ADS_16, HU_ADS_17, HU_ADS_18, HU_ADS_19, HU_ADS_20)), na.rm = TRUE))
 hist(depression)
 #trust-----
 #willingness to interact
@@ -181,18 +183,97 @@ data_basic %>%
 #cooperative items
 data_basic %>%
   select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
-         SL04_01, SL04_02, SL04_09) %>%
+         SL05_02, SL05_03, SL05_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 #reactant items
 data_basic %>%
   select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
-         SL04_08, SL04_04, SL04_10) %>%
+         SL05_01, SL05_05, SL05_06) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 
 
+save(data_basic, file = "EFRE_data.Rdata")
 
-#6. TO DOs:----
+
+
+#6. order effects----
+#create groups for order effect
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  )
+
+# Compare means for cooperation: leadership scenario
+means_order_effect_leadership_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_01, SL04_02, SL04_09), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+cohens_d(SL04_01 ~ order_leadership, data = data_basic)
+cohens_d(SL04_02 ~ order_leadership, data = data_basic)
+cohens_d(SL04_09 ~ order_leadership, data = data_basic)
+
+# Compare means for cooperation: employee scenario
+means_order_effect_employee_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_02, SL05_03, SL05_04), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+cohens_d(SL05_02 ~ order_leadership, data = data_basic)
+cohens_d(SL05_03 ~ order_leadership, data = data_basic)
+cohens_d(SL05_04 ~ order_leadership, data = data_basic)
+
+# Compare means for coersive behavior: leadership scenario
+means_order_effect_leadership_coersive <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_08, SL04_04, SL04_10), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+cohens_d(SL04_08 ~ order_leadership, data = data_basic)
+cohens_d(SL04_04 ~ order_leadership, data = data_basic)
+cohens_d(SL04_10 ~ order_leadership, data = data_basic)
+
+# Compare means for reactant behavior: employee scenario
+means_order_effect_employee_reactant <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_01, SL05_05, SL05_06), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+cohens_d(SL05_01 ~ order_leadership, data = data_basic)
+cohens_d(SL05_05 ~ order_leadership, data = data_basic)
+cohens_d(SL05_06 ~ order_leadership, data = data_basic)
+
+
+#7. TO DOs:----
 #correlations with study variables beyond primary interest, order effect of leadership scenarios
 
 
