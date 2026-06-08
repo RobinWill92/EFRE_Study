@@ -105,6 +105,27 @@ data_basic <- data_basic %>%
   mutate(ciss_avoidance = rowMeans(across(c(CS01_01, CS01_17, CS01_18, CS01_20, CS01_04, CS01_06, CS01_10, CS01_22)), na.rm = TRUE))
 hist(ciss_avoidance)
 
+#self-efficacy----
+data_basic <- data_basic %>%
+  mutate(self_efficacy = rowMeans(across(c(GS01_07, GS01_09, GS01_18, GS01_24, GS01_25, GS01_27, GS01_30, GS01_31, GS01_35, GS01_38)), na.rm = TRUE))
+hist(self_efficacy)
+
+#altruism----
+data_basic <- data_basic %>%
+  mutate(altruism = rowMeans(across(c(PT01_04, PT01_10, PT01_16, PT01_20, PT01_23, PT01_24)), na.rm = TRUE))
+hist(altruism)
+
+#anxiety----
+data_basic <- data_basic %>%
+  mutate(anxiety = rowMeans(across(c(SA01_01, SA01_02, SA01_03, SA01_04, SA01_05, SA01_06, SA01_07, SA01_08, SA01_09, SA01_10,
+                                     SA01_11, SA01_12, SA01_13, SA01_14, SA01_15, SA01_16, SA01_17, SA01_18, SA01_19, SA01_20)), na.rm = TRUE))
+hist(anxiety)
+
+#anger----
+data_basic <- data_basic %>%
+  mutate(anger = rowMeans(across(c(SX02_01, SX02_02, SX02_03, SX02_04, SX02_05,
+                                   SX02_06, SX02_07, SX02_08, SX02_09, SX02_10)), na.rm = TRUE))
+hist(anger)
 
 #4. correlation with study variables (scenarios)----
 #depression
@@ -134,7 +155,7 @@ data_basic %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 
-#5. correlations with leadership scenarios
+#5. correlations with leadership scenarios----
 #depression
 data_basic %>%
   select(depression, SL04_01, SL04_02, SL04_09,
@@ -152,5 +173,7 @@ data_basic %>%
          SL04_08, SL04_04, SL04_10) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
+#6. TO DOs:----
+#correlations with study variables beyond primary interest, order effect of leadership scenarios
 
 
