@@ -128,7 +128,7 @@ data_basic <- data_basic %>%
 hist(anger)
 
 #4. correlation with study variables (scenarios)----
-#depression
+#depression with all depression items in the scenarios
 data_basic %>%
   select(depression, SC06_01, SC06_02, SC06_08, SC06_04,
          SC12_01, SC12_02, SC12_08, SC12_04,
@@ -136,7 +136,16 @@ data_basic %>%
          SC14_01, SC14_02, SC14_08, SC14_04,
          SC15_01, SC15_02, SC15_08, SC15_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-#psychopathy
+#psychopathy with all psychopathy items in the scenarios
+#"I pretend being too busy for the task" is stronger correlated with depression
+#data_basic %>%
+#select(depression, SC07_09, SC07_10, SC07_11, SC07_12,
+#       SC16_09, SC16_10, SC16_11, SC16_12,
+#       SC17_09, SC17_10, SC17_11, SC17_12,
+#       SC18_09, SC18_10, SC18_11, SC18_12,
+#       SC19_09, SC19_10, SC19_11, SC19_12) %>%
+#  cor(use = "pairwise.complete.obs") %>% round(2)
+
 data_basic %>%
   select(psychopathy, SC07_09, SC07_10, SC07_11, SC07_12,
          SC16_09, SC16_10, SC16_11, SC16_12,
@@ -144,7 +153,7 @@ data_basic %>%
          SC18_09, SC18_10, SC18_11, SC18_12,
          SC19_09, SC19_10, SC19_11, SC19_12) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-#trust
+#trust with all trust items in the scenarios
 data_basic %>%
   select(trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SC08_13, SC08_14, SC08_15, SC08_16,
@@ -156,22 +165,32 @@ data_basic %>%
 
 
 #5. correlations with leadership scenarios----
-#depression
+#leadership perspective
+#cooperative items
 data_basic %>%
-  select(depression, SL04_01, SL04_02, SL04_09,
+  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_01, SL04_02, SL04_09) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#coersive items
+data_basic %>%
+  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL04_08, SL04_04, SL04_10) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-#psychopathy
+
+#employee's perspective 
+#cooperative items
 data_basic %>%
-  select(psychopathy, SL04_01, SL04_02, SL04_09,
+  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_01, SL04_02, SL04_09) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#reactant items
+data_basic %>%
+  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL04_08, SL04_04, SL04_10) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-#trust
-data_basic %>%
-  select(trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
-         SL04_01, SL04_02, SL04_09,
-         SL04_08, SL04_04, SL04_10) %>%
-  cor(use = "pairwise.complete.obs") %>% round(2)
+
+
+
 
 #6. TO DOs:----
 #correlations with study variables beyond primary interest, order effect of leadership scenarios

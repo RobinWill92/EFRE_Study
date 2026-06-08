@@ -311,7 +311,7 @@ data_basic %>%
 
 # to be reverse-coded: none
 #subscales: Aufgabenorientiert (Items: 5,9,12,14,15,19,23,24), Emotionsorientiert (Items: 2,3,7,8,11,13,16,21), Vermeidungsorientiert (Sozial-ablenkungsorientiert + Zerstreuungsorientiert), 
-#sozial-ablenkungsorientiert (Items: 1, 17, 18, 20), Zerstreuungsorientiert (Items 4,6,10,22)
+#sozial-ablenkungsorientiert (Items: 1, 17, 18, 20), Zerstreuungsorientiert (I#tems 4,6,10,22)
 
 # occuring values
 data_basic %>%
@@ -656,15 +656,41 @@ data_basic %>%
 
 #
 # correlation + Cronbach for Scenario 1
-
+#Scenario 1
 data_basic %>%
   select(SC07_09, SC07_10, SC07_11, SC07_12) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-
 # Cronbach's alpha
-
 data_basic %>%
   select(SC07_09, SC07_10, SC07_11, SC07_12) %>%  psych::alpha()
+#Scenario 2
+data_basic %>%
+  select(SC16_09, SC16_10, SC16_11, SC16_12) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC16_09, SC16_10, SC16_11, SC16_12) %>%  psych::alpha()
+#Scenario 3
+data_basic %>%
+  select(SC17_09, SC17_10, SC17_11, SC17_12) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC17_09, SC17_10, SC17_11, SC17_12) %>%  psych::alpha()
+#Scenario 4
+data_basic %>%
+  select(SC18_09, SC18_10, SC18_11, SC18_12) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC18_09, SC18_10, SC18_11, SC18_12) %>%  psych::alpha()
+#Scenario 5
+data_basic %>%
+  select(SC19_09, SC19_10, SC19_11, SC19_12) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC19_09, SC19_10, SC19_11, SC19_12) %>%  psych::alpha()
 
 
 
@@ -694,23 +720,46 @@ data_basic %>%
 
 #
 # correlation + Cronbach for Scenario 1
-
+#Scenario 1
 data_basic %>%
   select(SC08_13, SC08_14, SC08_15, SC08_16) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
-
 # Cronbach's alpha
-
 data_basic %>%
   select(SC08_13, SC08_14, SC08_15, SC08_16) %>%  psych::alpha()
-
+#Scenario 2
+data_basic %>%
+  select(SC20_13, SC20_14, SC20_15, SC20_16) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC20_13, SC20_14, SC20_15, SC20_16) %>%  psych::alpha()
+#Scenario 3
+data_basic %>%
+  select(SC21_13, SC21_14, SC21_15, SC21_16) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC21_13, SC21_14, SC21_15, SC21_16) %>%  psych::alpha()
+#Scenario 4
+data_basic %>%
+  select(SC22_13, SC22_14, SC22_15, SC22_16) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC22_13, SC22_14, SC22_15, SC22_16) %>%  psych::alpha()
+#Scenario 5
+data_basic %>%
+  select(SC23_13, SC23_14, SC23_15, SC23_16) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+# Cronbach's alpha
+data_basic %>%
+  select(SC23_13, SC23_14, SC23_15, SC23_16) %>%  psych::alpha()
 
 
 #######
-# Leadership Szenario Items
+# Leadership Scenario Items
 #######
-
-# to be reverse-coded: ???
 
 # occuring values
 
@@ -722,7 +771,7 @@ data_basic %>%
 
 
 #######
-# Employee Szenario Items
+# Employee Scenario Items
 #######
 
 # occuring values
