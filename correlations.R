@@ -4,7 +4,7 @@
 library(dplyr)
 library(psych)
 attach(data_basic)
-##1. exclude people with more than 2 failed attention checks
+##1. exclude people with more than 2 failed attention checks----
 #attention checks: BF01_22, CN09, CN15
 data_basic <- data_basic %>%
   mutate(
@@ -91,6 +91,19 @@ data_basic <- data_basic %>%
   mutate(openess = rowMeans(across(c(BF01_05, BF01_10, BF01_15, BF01_20, BF01_21)), na.rm = TRUE))
 hist(openess)
 
+#coping----
+#task-oriented
+data_basic <- data_basic %>%
+  mutate(ciss_task = rowMeans(across(c(CS01_05, CS01_09, CS01_12, CS01_14, CS01_15, CS01_19, CS01_23, CS01_24)), na.rm = TRUE))
+hist(ciss_task)
+#emotion-oriented
+data_basic <- data_basic %>%
+  mutate(ciss_emotion = rowMeans(across(c(CS01_02, CS01_03, CS01_07, CS01_08, CS01_11, CS01_13, CS01_16, CS01_21)), na.rm = TRUE))
+hist(ciss_emotion)
+# avoidance-oriented
+data_basic <- data_basic %>%
+  mutate(ciss_avoidance = rowMeans(across(c(CS01_01, CS01_17, CS01_18, CS01_20, CS01_04, CS01_06, CS01_10, CS01_22)), na.rm = TRUE))
+hist(ciss_avoidance)
 
 
 #4. correlation with study variables (scenarios)----
