@@ -5,6 +5,9 @@ library(dplyr)
 library(psych)
 library(effectsize)
 
+# run the script Analysis_Script.R
+source("Analysis_Script.R")
+
 attach(data_basic)
 ##1. exclude people with more than 2 failed attention checks----
 #attention checks: BF01_22, CN09, CN15
