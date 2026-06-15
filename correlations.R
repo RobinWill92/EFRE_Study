@@ -19,7 +19,7 @@ data_basic <- data_basic %>%
     attention_fail_overall = attention_fail_1 + attention_fail_2 + attention_fail_3
   )
 
-table(attention_fail_overall)
+table(data_basic$attention_fail_overall)
 ## no one failed more than 2 attention checks
 
 
@@ -28,109 +28,115 @@ table(CN03)
 data_basic <- data_basic %>%
   filter(CN03 == "Nein")
 
+#exclude people who took less than 15 min
+# 15 min = 900 sec
+sum(data_basic$TIME_SUM < 900, na.rm = TRUE) # 21 people who took less than 15 min
+data_basic <- data_basic %>%
+  filter(TIME_SUM >= 900)
+
 
 
 #2. calculate mean scores for variables (main variables)----
 #psychopathy----
 data_basic <- data_basic %>%
   mutate(psychopathy = rowMeans(across(c(DT01_02, DT01_05, DT01_08)), na.rm = TRUE))
-hist(psychopathy)
+hist(data_basic$psychopathy)
 #depression----
 data_basic <- data_basic %>%
   mutate(depression = rowMeans(across(c( HU_ADS_01, HU_ADS_02, HU_ADS_03, HU_ADS_04, HU_ADS_05,
                                          HU_ADS_06, HU_ADS_07, HU_ADS_08, HU_ADS_09, HU_ADS_10,
                                          HU_ADS_11, HU_ADS_12, HU_ADS_13, HU_ADS_14, HU_ADS_15,
                                          HU_ADS_16, HU_ADS_17, HU_ADS_18, HU_ADS_19, HU_ADS_20)), na.rm = TRUE))
-hist(depression)
+hist(data_basic$depression)
 #trust-----
 #willingness to interact
 data_basic <- data_basic %>%
   mutate(trust_wia = rowMeans(across(c( AT01_01, AT01_02, AT01_03)), na.rm = TRUE))
-hist(trust_wia)
+hist(data_basic$trust_wia)
 #feeling secure
 data_basic <- data_basic %>%
   mutate(trust_secure = rowMeans(across(c( AT01_04, AT01_05, AT01_06)), na.rm = TRUE))
-hist(trust_secure)
+hist(data_basic$trust_secure)
 #propensity to trust humans
 data_basic <- data_basic %>%
   mutate(trust_humans = rowMeans(across(c( AT01_07, AT01_08, AT01_09, AT01_10, AT01_11)), na.rm = TRUE))
-hist(trust_humans)
+hist(data_basic$trust_humans)
 #propensity to trust automation
 data_basic <- data_basic %>%
   mutate(trust_automation = rowMeans(across(c( AT01_12, AT01_13, AT01_14, AT01_15)), na.rm = TRUE))
-hist(trust_automation)
+hist(data_basic$trust_automation)
 #literacy
 data_basic <- data_basic %>%
   mutate(trust_literacy = rowMeans(across(c( AT01_16, AT01_17, AT01_18)), na.rm = TRUE))
-hist(trust_literacy)
+hist(data_basic$trust_literacy)
 
 #3. other variables
 #Machiavellianism----
 data_basic <- data_basic %>%
   mutate(machiavellianism = rowMeans(across(c(DT01_01, DT01_04, DT01_07)), na.rm = TRUE))
-hist(machiavellianism)
+hist(data_basic$machiavellianism)
 #narcissism----
 data_basic <- data_basic %>%
   mutate(narcissism = rowMeans(across(c(DT01_03, DT01_06)), na.rm = TRUE))
-hist(narcissism)
+hist(data_basic$narcissism)
 
 #big5-----
 #extraversion
 data_basic <- data_basic %>%
   mutate(extraversion = rowMeans(across(c(BF01_01, BF01_06, BF01_11, BF01_16)), na.rm = TRUE))
-hist(extraversion)
+hist(data_basic$extraversion)
 #agreeableness
 data_basic <- data_basic %>%
   mutate(agreeablenesss = rowMeans(across(c(BF01_02, BF01_07, BF01_12, BF01_17)), na.rm = TRUE))
-hist(agreeablenesss)
+hist(data_basic$agreeablenesss)
 #conscientiousness
 data_basic <- data_basic %>%
   mutate(conscientiousness = rowMeans(across(c(BF01_03, BF01_08, BF01_13, BF01_18)), na.rm = TRUE))
-hist(conscientiousness)
+hist(data_basic$conscientiousness)
 #neuroticism
 data_basic <- data_basic %>%
   mutate(neuroticism = rowMeans(across(c(BF01_04, BF01_09, BF01_14, BF01_19)), na.rm = TRUE))
-hist(neuroticism)
+hist(data_basic$neuroticism)
 #openess
 data_basic <- data_basic %>%
   mutate(openess = rowMeans(across(c(BF01_05, BF01_10, BF01_15, BF01_20, BF01_21)), na.rm = TRUE))
-hist(openess)
+hist(data_basic$openess)
 
 #coping----
 #task-oriented
 data_basic <- data_basic %>%
   mutate(ciss_task = rowMeans(across(c(CS01_05, CS01_09, CS01_12, CS01_14, CS01_15, CS01_19, CS01_23, CS01_24)), na.rm = TRUE))
-hist(ciss_task)
+hist(data_basic$ciss_task)
 #emotion-oriented
 data_basic <- data_basic %>%
   mutate(ciss_emotion = rowMeans(across(c(CS01_02, CS01_03, CS01_07, CS01_08, CS01_11, CS01_13, CS01_16, CS01_21)), na.rm = TRUE))
-hist(ciss_emotion)
+hist(data_basic$ciss_emotion)
 # avoidance-oriented
 data_basic <- data_basic %>%
   mutate(ciss_avoidance = rowMeans(across(c(CS01_01, CS01_17, CS01_18, CS01_20, CS01_04, CS01_06, CS01_10, CS01_22)), na.rm = TRUE))
-hist(ciss_avoidance)
+hist(data_basic$ciss_avoidance)
 
 #self-efficacy----
 data_basic <- data_basic %>%
   mutate(self_efficacy = rowMeans(across(c(GS01_07, GS01_09, GS01_18, GS01_24, GS01_25, GS01_27, GS01_30, GS01_31, GS01_35, GS01_38)), na.rm = TRUE))
-hist(self_efficacy)
+hist(data_basic$self_efficacy)
 
 #altruism----
 data_basic <- data_basic %>%
   mutate(altruism = rowMeans(across(c(PT01_04, PT01_10, PT01_16, PT01_20, PT01_23, PT01_24)), na.rm = TRUE))
-hist(altruism)
+hist(data_basic$altruism)
 
 #anxiety----
 data_basic <- data_basic %>%
   mutate(anxiety = rowMeans(across(c(SA01_01, SA01_02, SA01_03, SA01_04, SA01_05, SA01_06, SA01_07, SA01_08, SA01_09, SA01_10,
                                      SA01_11, SA01_12, SA01_13, SA01_14, SA01_15, SA01_16, SA01_17, SA01_18, SA01_19, SA01_20)), na.rm = TRUE))
-hist(anxiety)
+hist(data_basic$anxiety)
 
 #anger----
 data_basic <- data_basic %>%
   mutate(anger = rowMeans(across(c(SX02_01, SX02_02, SX02_03, SX02_04, SX02_05,
                                    SX02_06, SX02_07, SX02_08, SX02_09, SX02_10)), na.rm = TRUE))
-hist(anger)
+hist(data_basic$anger)
 
 #4. correlation with study variables (scenarios)----
 #depression with all depression items in the scenarios
@@ -196,7 +202,7 @@ data_basic %>%
 
 
 
-save(data_basic, file = "EFRE_data.Rdata")
+# save(data_basic, file = "EFRE_data.Rdata")
 
 
 
@@ -222,9 +228,13 @@ means_order_effect_leadership_cooperation <- data_basic %>%
     ),
     .groups = 'drop'
   )
-
+t.test(SL04_01 ~ order_leadership, data = data_basic)
 cohens_d(SL04_01 ~ order_leadership, data = data_basic)
+
+t.test(SL04_02 ~ order_leadership, data = data_basic)
 cohens_d(SL04_02 ~ order_leadership, data = data_basic)
+
+t.test(SL04_09 ~ order_leadership, data = data_basic)
 cohens_d(SL04_09 ~ order_leadership, data = data_basic)
 
 # Compare means for cooperation: employee scenario
@@ -239,8 +249,13 @@ means_order_effect_employee_cooperation <- data_basic %>%
     .groups = 'drop'
   )
 
+t.test(SL05_02 ~ order_leadership, data = data_basic)
 cohens_d(SL05_02 ~ order_leadership, data = data_basic)
+
+t.test(SL05_03 ~ order_leadership, data = data_basic)
 cohens_d(SL05_03 ~ order_leadership, data = data_basic)
+
+t.test(SL05_04 ~ order_leadership, data = data_basic)
 cohens_d(SL05_04 ~ order_leadership, data = data_basic)
 
 # Compare means for coersive behavior: leadership scenario
@@ -255,8 +270,13 @@ means_order_effect_leadership_coersive <- data_basic %>%
     .groups = 'drop'
   )
 
+t.test(SL04_08 ~ order_leadership, data = data_basic)
 cohens_d(SL04_08 ~ order_leadership, data = data_basic)
+
+t.test(SL04_04 ~ order_leadership, data = data_basic)
 cohens_d(SL04_04 ~ order_leadership, data = data_basic)
+
+t.test(SL04_10 ~ order_leadership, data = data_basic)
 cohens_d(SL04_10 ~ order_leadership, data = data_basic)
 
 # Compare means for reactant behavior: employee scenario
@@ -271,8 +291,13 @@ means_order_effect_employee_reactant <- data_basic %>%
     .groups = 'drop'
   )
 
+t.test(SL05_01 ~ order_leadership, data = data_basic)
 cohens_d(SL05_01 ~ order_leadership, data = data_basic)
+
+t.test(SL05_05 ~ order_leadership, data = data_basic)
 cohens_d(SL05_05 ~ order_leadership, data = data_basic)
+
+t.test(SL05_06 ~ order_leadership, data = data_basic)
 cohens_d(SL05_06 ~ order_leadership, data = data_basic)
 
 
