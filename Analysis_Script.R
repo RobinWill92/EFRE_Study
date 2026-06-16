@@ -188,7 +188,14 @@ data_basic %>%
 data_basic %>%
   select(
     AT01_16, AT01_17, AT01_18) %>%  psych::alpha()
-
+#all together
+data_basic %>%
+  select(
+    AT01_01, AT01_02, AT01_03,
+    AT01_04, AT01_05, AT01_06,
+    AT01_07, AT01_08, AT01_09, AT01_10, AT01_11,
+    AT01_12, AT01_13, AT01_14, AT01_15,
+    AT01_16, AT01_17, AT01_18) %>%  psych::alpha()
 
 
 ##

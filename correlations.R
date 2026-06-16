@@ -69,13 +69,22 @@ hist(data_basic$trust_automation)
 data_basic <- data_basic %>%
   mutate(trust_literacy = rowMeans(across(c( AT01_16, AT01_17, AT01_18)), na.rm = TRUE))
 hist(data_basic$trust_literacy)
+#all together
+data_basic <- data_basic %>%
+  mutate(trust_all = rowMeans(across(c(AT01_01, AT01_02, AT01_03,
+                                       AT01_04, AT01_05, AT01_06,
+                                       AT01_07, AT01_08, AT01_09, AT01_10, AT01_11,
+                                       AT01_12, AT01_13, AT01_14, AT01_15,
+                                       AT01_16, AT01_17, AT01_18)), na.rm = TRUE))
+hist(data_basic$trust_all)
+
 
 #3. other variables
 #Machiavellianism----
 data_basic <- data_basic %>%
   mutate(machiavellianism = rowMeans(across(c(DT01_01, DT01_04, DT01_07)), na.rm = TRUE))
 hist(data_basic$machiavellianism)
-#narcissism----
+#narcissism---- one item is missing
 data_basic <- data_basic %>%
   mutate(narcissism = rowMeans(across(c(DT01_03, DT01_06)), na.rm = TRUE))
 hist(data_basic$narcissism)
@@ -147,6 +156,29 @@ data_basic %>%
          SC14_01, SC14_02, SC14_08, SC14_04,
          SC15_01, SC15_02, SC15_08, SC15_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
+
+#depression with the average depression items in the scenarios
+data_basic <- data_basic %>% #creating average depression score across scenarios
+  mutate(scen_depr_mean = rowMeans(across(c(
+        SC06_01, SC06_02, SC06_08, SC06_04,
+        SC12_01, SC12_02, SC12_08, SC12_04,
+        SC13_01, SC13_02, SC13_08, SC13_04,
+        SC14_01, SC14_02, SC14_08, SC14_04,
+        SC15_01, SC15_02, SC15_08, SC15_04
+      )),
+      na.rm = TRUE
+    )
+  )
+hist(data_basic$scen_depr_mean)
+
+#correlation analysis
+cor.test(
+  data_basic$depression,
+  data_basic$scen_depr_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
+
 #psychopathy with all psychopathy items in the scenarios
 #"I pretend being too busy for the task" is stronger correlated with depression
 #data_basic %>%
@@ -164,6 +196,30 @@ data_basic %>%
          SC18_09, SC18_10, SC18_11, SC18_12,
          SC19_09, SC19_10, SC19_11, SC19_12) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
+
+#psychopathy with the average psychopathic/egoistic items in the scenarios
+data_basic <- data_basic %>% #creating average psychopathy score across scenarios
+  mutate(scen_psycho_mean = rowMeans(across(c(
+    SC07_09, SC07_10, SC07_11, SC07_12,
+    SC16_09, SC16_10, SC16_11, SC16_12,
+    SC17_09, SC17_10, SC17_11, SC17_12,
+    SC18_09, SC18_10, SC18_11, SC18_12,
+    SC19_09, SC19_10, SC19_11, SC19_12
+  )),
+  na.rm = TRUE
+  )
+  )
+hist(data_basic$scen_psycho_mean)
+
+#correlation analysis
+cor.test(
+  data_basic$psychopathy,
+  data_basic$scen_psycho_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
+
+
 #trust with all trust items in the scenarios
 data_basic %>%
   select(trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
@@ -173,6 +229,28 @@ data_basic %>%
          SC22_13, SC22_14, SC22_15, SC22_16,
          SC23_13, SC23_14, SC23_15, SC23_16) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
+
+#trust with the average trusting behavior items in the scenarios
+data_basic <- data_basic %>% #creating average trusting behavior score across scenarios
+  mutate(scen_trust_mean = rowMeans(across(c(
+    SC08_13, SC08_14, SC08_15, SC08_16,
+    SC20_13, SC20_14, SC20_15, SC20_16,
+    SC21_13, SC21_14, SC21_15, SC21_16,
+    SC22_13, SC22_14, SC22_15, SC22_16,
+    SC23_13, SC23_14, SC23_15, SC23_16
+  )),
+  na.rm = TRUE
+  )
+  )
+hist(data_basic$scen_trust_mean)
+
+#correlation analysis
+cor.test(
+  data_basic$trust_all,
+  data_basic$scen_trust_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
 
 
 #5. correlations with leadership scenarios----
