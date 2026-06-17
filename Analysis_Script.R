@@ -776,6 +776,13 @@ data_basic %>%
   unlist() %>%
   unique() 
 
+# Cronbach's alpha coop
+data_basic %>%
+  select(SL04_01, SL04_02, SL04_09) %>%  psych::alpha()
+# Cronbach's alpha reactive
+data_basic %>%
+  select(SL04_08, SL04_04, SL04_10) %>%  psych::alpha()
+
 
 #######
 # Employee Scenario Items
@@ -790,6 +797,12 @@ data_basic %>%
   unique() 
 
 
+# Cronbach's alpha coop
+data_basic %>%
+  select(SL05_02, SL05_03, SL05_04) %>%  psych::alpha()
+# Cronbach's alpha reactive
+data_basic %>%
+  select(SL05_01, SL05_05, SL05_06) %>%  psych::alpha()
 
 
 

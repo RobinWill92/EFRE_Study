@@ -257,24 +257,25 @@ cor.test(
 #leadership perspective
 #cooperative items
 data_basic %>%
-  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL04_01, SL04_02, SL04_09) %>%
-  cor(use = "pairwise.complete.obs") %>% round(2)
+  cor(use = "pairwise.complete.obs") %>% round(2) #Item SL04_09 seems to not have worked as predicted
+
 #coersive items
 data_basic %>%
-  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL04_08, SL04_04, SL04_10) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 #employee's perspective 
 #cooperative items
 data_basic %>%
-  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL05_02, SL05_03, SL05_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 #reactant items
 data_basic %>%
-  select(depression, psychopathy, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL05_01, SL05_05, SL05_06) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
