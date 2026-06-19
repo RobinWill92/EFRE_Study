@@ -4,6 +4,8 @@
 library(dplyr)
 library(psych)
 library(effectsize)
+library(ggplot2)
+library(tidyr)
 
 # run the script Analysis_Script.R
 source("Analysis_Script.R")
@@ -432,6 +434,130 @@ cor.test(
 #8. Journalistenfragen----
 
 # check ranking of AI
+
+# JF02_01 = Buchdruck; JF02_02 = KI; JF02_03 = Smartphone; JF02_04 = Internet; JF02_05 = Automobil; JF02_06 = Computer; JF02_07 = Eisenbahn
+
+data_basic %>%
+  select(JF02_01, JF02_02, JF02_03, JF02_04, JF02_05, JF02_06, JF02_07) %>%
+  unlist() %>%
+  unique() 
+
+# convert variables to numeric
+data_basic <- data_basic %>%
+  mutate(across(JF02_01:JF02_07, as.numeric))
+
+# Convert to long format
+long_data <- data_basic %>%
+  select(DM01_01, JF02_01, JF02_02, JF02_03, JF02_04, JF02_05, JF02_06, JF02_07) %>%
+    rename(
+    Buchdruck = JF02_01,
+    KI         = JF02_02,
+    Smartphone = JF02_03,
+    Internet   = JF02_04,
+    Automobil  = JF02_05,
+    Computer   = JF02_06,
+    Eisenbahn  = JF02_07
+  ) %>% 
+  pivot_longer(
+    cols = Buchdruck:Eisenbahn,
+    names_to = "Variable",
+    values_to = "Rank"
+  ) 
+
+# if you only want certain age
+long_data_1st_quant <- long_data %>%
+filter(DM01_01 <= 26)
+
+long_data_2nd_quant <- long_data %>%
+filter(DM01_01 > 26 & DM01_01 <= 31)
+
+long_data_3rd_quant <- long_data %>%
+  filter(DM01_01 > 31 & DM01_01 <= 39)
+
+long_data_4th_quant <- long_data %>%
+  filter(DM01_01 > 39)
+
+
+ggplot(long_data_4th_quant,
+       aes(x = factor(Rank),
+           fill = Variable)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Rank",
+       y = "Percentage of participants",
+       fill = "Variable") +
+  theme_minimal()
+
+# alternative graph
+
+
+long_data <- data_basic %>%
+  pivot_longer(
+    cols = JF02_01:JF02_07,
+    names_to = "Variable",
+    values_to = "Rank"
+  ) %>%
+  mutate(
+    Variable = recode(
+      Variable,
+      JF02_01 = "Buchdruck",
+      JF02_02 = "KI",
+      JF02_03 = "Smartphone",
+      JF02_04 = "Internet",
+      JF02_05 = "Automobil",
+      JF02_06 = "Computer",
+      JF02_07 = "Eisenbahn"
+    ),
+    Rank = factor(Rank)
+  ) %>%
+  count(Variable, Rank)
+
+
+
+long_data <- long_data %>%
+  group_by(Variable) %>%
+  mutate(percent = n / sum(n))
+
+ggplot(long_data,
+       aes(x = Variable,
+           y = percent,
+           fill = Rank)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_manual(values = c(
+    "1" = "grey10",
+    "2" = "grey25",
+    "3" = "grey40",
+    "4" = "grey55",
+    "5" = "grey65",
+    "6" = "grey75",
+    "7" = "grey85"
+  )) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "",
+       y = "Percentage",
+       fill = "Rank") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# check according to age
+
+ggplot(data_basic,
+       aes(x = DM01_01)) +
+  geom_bar() +
+  labs(x = "DM01",
+       y = "Count") +
+  theme_minimal()
+
+# Quantile
+
+quantile(data_basic$DM01_01,
+         probs = c(0.25, 0.5, 0.75),
+         na.rm = TRUE)
+
+
+
+
+
 # check age dependence for how pos/neg AI is seen
 
 
