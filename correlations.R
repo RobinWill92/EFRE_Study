@@ -84,7 +84,7 @@ hist(data_basic$trust_all)
 data_basic <- data_basic %>%
   mutate(machiavellianism = rowMeans(across(c(DT01_01, DT01_04, DT01_07)), na.rm = TRUE))
 hist(data_basic$machiavellianism)
-#narcissism---- one item is missing
+#narcissism (one item is missing) ---- 
 data_basic <- data_basic %>%
   mutate(narcissism = rowMeans(across(c(DT01_03, DT01_06)), na.rm = TRUE))
 hist(data_basic$narcissism)
@@ -130,10 +130,10 @@ data_basic <- data_basic %>%
   mutate(self_efficacy = rowMeans(across(c(GS01_07, GS01_09, GS01_18, GS01_24, GS01_25, GS01_27, GS01_30, GS01_31, GS01_35, GS01_38)), na.rm = TRUE))
 hist(data_basic$self_efficacy)
 
-#altruism----
+#prosocial tendencies----
 data_basic <- data_basic %>%
-  mutate(altruism = rowMeans(across(c(PT01_04, PT01_10, PT01_16, PT01_20, PT01_23, PT01_24)), na.rm = TRUE))
-hist(data_basic$altruism)
+  mutate(proso_tend = rowMeans(across(c(PT01_04, PT01_10, PT01_16, PT01_20, PT01_23, PT01_24)), na.rm = TRUE))
+hist(data_basic$proso_tend)
 
 #anxiety----
 data_basic <- data_basic %>%
@@ -380,7 +380,62 @@ t.test(SL05_06 ~ order_leadership, data = data_basic)
 cohens_d(SL05_06 ~ order_leadership, data = data_basic)
 
 
-#7. TO DOs:----
+#7. correlations with study variables (scenarios) beyond primary interest ----
+
+# machiavellianism, narcissism, BIG5, Coping (3 subscales), self-efficacy, prosocial tendencies, STAI, STAXI
+# with average depression items in the scenarios (missing are trust subscales)
+data_basic %>%
+  select(machiavellianism, narcissism, extraversion, agreeablenesss, conscientiousness, neuroticism, openess,
+         ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger, scen_depr_mean) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+#correlation analysis
+cor.test(
+  data_basic$anxiety,
+  data_basic$scen_depr_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
+
+# machiavellianism, narcissism, BIG5, Coping (3 subscales), self-efficacy, prosocial tendencies, STAI, STAXI
+# with average psychopathic/egoistic items in the scenarios (missing are trust subscales)
+data_basic %>%
+  select(machiavellianism, narcissism, extraversion, agreeablenesss, conscientiousness, neuroticism, openess,
+         ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger, scen_psycho_mean) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+#correlation analysis
+cor.test(
+  data_basic$conscientiousness,
+  data_basic$scen_psycho_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
+
+
+# machiavellianism, narcissism, BIG5, Coping (3 subscales), self-efficacy, prosocial tendencies, STAI, STAXI
+# with average trusting behavior items in the scenarios (missing are trust subscales)
+data_basic %>%
+  select(machiavellianism, narcissism, extraversion, agreeablenesss, conscientiousness, neuroticism, openess,
+         ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger, scen_trust_mean) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+#correlation analysis
+cor.test(
+  data_basic$anxiety,
+  data_basic$scen_trust_mean,
+  method = "pearson",
+  use = "pairwise.complete.obs"
+)
+
+
+#8. Journalistenfragen----
+
+# check ranking of AI
+# check age dependence for how pos/neg AI is seen
+
+
+#9. TO DOs:----
 #correlations with study variables beyond primary interest, order effect of leadership scenarios
 
 
