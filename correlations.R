@@ -464,29 +464,44 @@ long_data <- data_basic %>%
     values_to = "Rank"
   ) 
 
-# if you only want certain age
-long_data_1st_quant <- long_data %>%
-filter(DM01_01 <= 26)
+# # if you only want certain age
+# long_data_1st_quant <- long_data %>%
+# filter(DM01_01 <= 26)
+# 
+# long_data_2nd_quant <- long_data %>%
+# filter(DM01_01 > 26 & DM01_01 <= 31)
+# 
+# long_data_3rd_quant <- long_data %>%
+#   filter(DM01_01 > 31 & DM01_01 <= 39)
+# 
+# long_data_4th_quant <- long_data %>%
+#   filter(DM01_01 > 39)
 
-long_data_2nd_quant <- long_data %>%
-filter(DM01_01 > 26 & DM01_01 <= 31)
 
-long_data_3rd_quant <- long_data %>%
-  filter(DM01_01 > 31 & DM01_01 <= 39)
-
-long_data_4th_quant <- long_data %>%
-  filter(DM01_01 > 39)
-
-
-ggplot(long_data_4th_quant,
+ggplot(long_data,
        aes(x = factor(Rank),
            fill = Variable)) +
   geom_bar(position = "fill") +
   scale_y_continuous(labels = scales::percent) +
-  labs(x = "Rank",
-       y = "Percentage of participants",
+  scale_fill_manual(values = c(
+    "#0072B2",  # blue
+    "#D55E00",  # orange-red
+    "#009E73",  # green
+    "#CC79A7",  # purple
+    "#E69F00",  # orange
+    "#56B4E9",  # light blue
+    "#F0E442"   # yellow
+  )) +
+  labs(x = "Rang",
+       y = "Prozent der Studienteilnehmer:innen",
        fill = "Variable") +
-  theme_minimal()
+  theme_minimal() +
+  theme(
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14)
+  )
 
 # alternative graph
 
@@ -534,19 +549,50 @@ ggplot(long_data,
   )) +
   scale_y_continuous(labels = scales::percent) +
   labs(x = "",
-       y = "Percentage",
-       fill = "Rank") +
+       y = "Prozent der Studienteilnehmer:innen",
+       fill = "Rang") +
   theme_minimal() +
+  theme(
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 14))
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # check according to age
 
-ggplot(data_basic,
-       aes(x = DM01_01)) +
-  geom_bar() +
-  labs(x = "DM01",
-       y = "Count") +
-  theme_minimal()
+  # Compute quartiles
+  quartiles <- quantile(data_basic$DM01_01,
+                        probs = c(0.25, 0.50, 0.75),
+                        na.rm = TRUE)
+  
+  # get max y-value from histogram
+  max_y <- max(ggplot_build(ggplot(data_basic, aes(x = DM01_01)) +
+                              geom_bar())$data[[1]]$count)
+  
+  ggplot(data_basic,
+         aes(x = DM01_01)) +
+    geom_bar() +
+    geom_vline(xintercept = quartiles,
+               linetype = "dashed",
+               color = "red",
+               linewidth = 1) +
+    annotate("text",
+             x = quartiles + 1,
+             y = max_y * 0.90,   
+             label = c("1 Quartal", "Median", "3. Quartal"),
+             angle = 90,
+             color = "red",
+             size = 5) +
+    labs(x = "Alter der Studienteilnehmenden",
+         y = "Häufigkeit") +
+    theme_minimal() +
+    theme(
+      axis.title = element_text(size = 16),
+      axis.text = element_text(size = 14),
+      legend.title = element_text(size = 16),
+      legend.text = element_text(size = 14)
+    )
 
 # Quantile
 
@@ -556,9 +602,61 @@ quantile(data_basic$DM01_01,
 
 
 
+# How pos/neg is AI seen ----
+
+# JF03_01 = außerhalb Arbeitsplatz
+# JF04_01 = am Arbeitsplatz
+
+# convert variables to numeric
+data_basic <- data_basic %>%
+  mutate(across(JF03_01: JF04_01, as.numeric))
+
+data_basic %>%
+  select(JF03_01, JF04_01) %>%
+  unlist() %>%
+  unique() 
 
 
-# check age dependence for how pos/neg AI is seen
+data_basic %>%
+  select(JF03_01, JF04_01) %>%
+  pivot_longer(cols = everything(),
+               names_to = "Variable",
+               values_to = "Value") %>%
+  ggplot(aes(x = Value)) +
+  geom_bar() +
+  facet_wrap(~ Variable, scales = "free_x") +
+  scale_x_continuous(
+    breaks = 1:5,
+    labels = c("sehr negativ", "2", "3", "4", "sehr positiv")
+  ) +
+  labs(x = "",
+       y = "Häufigkeit") +
+  theme_minimal() +
+  theme(
+    axis.title = element_text(size = 16),
+    axis.text = element_text(size = 14),
+    strip.text = element_text(size = 14)
+  )
+
+# Compare means for cooperation: leadership scenario
+
+data_basic %>%
+  summarise(
+    M_JF03 = mean(JF03_01, na.rm = TRUE),
+    SD_JF03 = sd(JF03_01, na.rm = TRUE),
+    M_JF04 = mean(JF04_01, na.rm = TRUE),
+    SD_JF04 = sd(JF04_01, na.rm = TRUE)
+  ) %>%
+  tidyr::pivot_longer(everything())
+
+t.test(data_basic$JF03_01,
+       data_basic$JF04_01,
+       paired = TRUE)
+
+cohens_d(data_basic$JF03_01,
+         data_basic$JF04_01,
+         paired = TRUE)
+
 
 
 #9. TO DOs:----
