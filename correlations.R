@@ -580,7 +580,7 @@ ggplot(long_data,
     annotate("text",
              x = quartiles + 1,
              y = max_y * 0.90,   
-             label = c("1 Quartal", "Median", "3. Quartal"),
+             label = c("1 Quartil", "Median", "3. Quartil"),
              angle = 90,
              color = "red",
              size = 5) +
@@ -599,6 +599,14 @@ ggplot(long_data,
 quantile(data_basic$DM01_01,
          probs = c(0.25, 0.5, 0.75),
          na.rm = TRUE)
+
+mean(data_basic$DM01_01, na.rm = TRUE)
+sd(data_basic$DM01_01, na.rm = TRUE)
+
+# gender
+
+unique(data_basic$DM03)
+table(data_basic$DM03)
 
 
 
