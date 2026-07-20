@@ -429,12 +429,12 @@ model <- lm(SL04_08 ~ order_leadership * psychopathy_cent, data = data_basic)
 Anova(model, type = 3)
 
 
-## leader perspective; coop behav (SL05_02, SL05_03, SL05_04)
+## employees perspective; coop behav (SL05_02, SL05_03, SL05_04)
 
 
 
 
-## leader perspective; reactant behav (SL05_01, SL05_05, SL05_06)
+## employees perspective; reactant behav (SL05_01, SL05_05, SL05_06)
 
 
 
