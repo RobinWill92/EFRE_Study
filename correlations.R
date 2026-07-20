@@ -6,6 +6,7 @@ library(psych)
 library(effectsize)
 library(ggplot2)
 library(tidyr)
+library(car)
 
 # run the script Analysis_Script.R
 source("Analysis_Script.R")
@@ -259,25 +260,25 @@ cor.test(
 #leadership perspective
 #cooperative items
 data_basic %>%
-  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL04_01, SL04_02, SL04_09) %>%
   cor(use = "pairwise.complete.obs") %>% round(2) #Item SL04_09 seems to not have worked as predicted
 
 #coersive items
 data_basic %>%
-  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
-         SL04_08, SL04_04, SL04_10) %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_08, SL04_04, SL04_10) %>% 
   cor(use = "pairwise.complete.obs") %>% round(2)
 
 #employee's perspective 
 #cooperative items
 data_basic %>%
-  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL05_02, SL05_03, SL05_04) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 #reactant items
 data_basic %>%
-  select(depression, psychopathy, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
          SL05_01, SL05_05, SL05_06) %>%
   cor(use = "pairwise.complete.obs") %>% round(2)
 
@@ -291,12 +292,13 @@ data_basic %>%
 #create groups for order effect
 data_basic <- data_basic %>%
   mutate(
-    order_leadership = case_when(
+    order_leadership = factor(
+      case_when(
       ZU02_01 == 1 ~ "leader first",
       ZU02_02 == 1 ~ "employee first",
       TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
     )
-  )
+  ))
 
 # Compare means for cooperation: leadership scenario
 means_order_effect_leadership_cooperation <- data_basic %>%
@@ -381,8 +383,63 @@ cohens_d(SL05_05 ~ order_leadership, data = data_basic)
 t.test(SL05_06 ~ order_leadership, data = data_basic)
 cohens_d(SL05_06 ~ order_leadership, data = data_basic)
 
+#7. interaction order effects with trait variables ----
 
-#7. correlations with study variables (scenarios) beyond primary interest ----
+## leader perspective; coop behav (SL04_01, SL04_02, SL04_09)
+# trust
+data_basic <- data_basic %>% # centering trust_all
+  mutate(
+    trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * trust_all_cent, data = data_basic)
+Anova(model, type = 3)
+
+# prosocial tendencies
+data_basic <- data_basic %>% # centering proso_tend
+  mutate(
+    proso_tend_cent = scale(proso_tend, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * proso_tend_cent, data = data_basic)
+Anova(model, type = 3)
+
+# agreeableness
+data_basic <- data_basic %>% # centering agreeablenesss
+  mutate(
+    agreeablenesss_cent = scale(agreeablenesss, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * agreeablenesss_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+## leader perspective; coersive behav (SL04_08, SL04_04, SL04_10)
+# psychopathy
+data_basic <- data_basic %>% # centering psychopathy
+  mutate(
+    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_08 ~ order_leadership * psychopathy_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+## leader perspective; coop behav (SL05_02, SL05_03, SL05_04)
+
+
+
+
+## leader perspective; reactant behav (SL05_01, SL05_05, SL05_06)
+
+
+
+
+#8. correlations with study variables (scenarios) beyond primary interest ----
 
 # machiavellianism, narcissism, BIG5, Coping (3 subscales), self-efficacy, prosocial tendencies, STAI, STAXI
 # with average depression items in the scenarios (missing are trust subscales)
@@ -431,7 +488,7 @@ cor.test(
 )
 
 
-#8. Journalistenfragen----
+#9. Journalistenfragen----
 
 # check ranking of AI
 
