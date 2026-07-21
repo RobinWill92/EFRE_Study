@@ -430,12 +430,48 @@ Anova(model, type = 3)
 
 
 ## employees perspective; coop behav (SL05_02, SL05_03, SL05_04)
+# trust
+data_basic <- data_basic %>% # centering trust_all
+  mutate(
+    trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * trust_all_cent, data = data_basic)
+Anova(model, type = 3)
 
+# prosocial tendencies
+data_basic <- data_basic %>% # centering proso_tend
+  mutate(
+    proso_tend_cent = scale(proso_tend, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * proso_tend_cent, data = data_basic)
+Anova(model, type = 3)
+
+# agreeableness
+data_basic <- data_basic %>% # centering agreeablenesss
+  mutate(
+    agreeablenesss_cent = scale(agreeablenesss, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * agreeablenesss_cent, data = data_basic)
+Anova(model, type = 3)
 
 
 
 ## employees perspective; reactant behav (SL05_01, SL05_05, SL05_06)
-
+# psychopathy
+data_basic <- data_basic %>% # centering psychopathy
+  mutate(
+    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_01 ~ order_leadership * psychopathy_cent, data = data_basic)
+Anova(model, type = 3)
 
 
 
