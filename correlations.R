@@ -85,7 +85,7 @@ data_basic <- data_basic %>%
                                        AT01_04, AT01_05, AT01_06,
                                        AT01_12, AT01_13, AT01_14, AT01_15,
                                        AT01_16, AT01_17, AT01_18)), na.rm = TRUE))
-hist(data_basic$trust_automation)
+hist(data_basic$trust_automation_all)
 
 
 #3. other variables
