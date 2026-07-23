@@ -1,0 +1,87 @@
+---
+title: "Scenarios EFRE-study"
+author: "Jule Schilling"
+date: "2026-07-23"
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    toc-expand: true
+    toc-title: "Table of Contents"
+execute:
+  echo: false      # Hides R code globally across all chunks
+  warning: false   # Mutes warnings globally
+  message: false   # Mutes package loading messages globally
+---
+
+```{r setup, include=FALSE}
+setwd("~/Desktop/Uni Würzburg/Forschung/EFRE_Studie/Data/Data_EFRE")
+load("EFRE_data.Rdata")
+
+library(dplyr)
+library(psych)
+```
+
+In this document: .
+
+## Scenarios
+
+## Scenario 1
+
+Sie arbeiten in einem Logistikunternehmen und sind zusammen mit Ihren Kollegen für den reibungslosen Ablauf der Auftragsverwaltung zuständig. Derzeit erreichen Sie ungewöhnlich viele Aufträge, die in ihrem Umfang und der Dringlichkeit nur schwer zu bearbeiten sind. Die resultierende Mehrbelastung beeinträchtigt das Arbeitsklima. Nun soll ein Automatisierungssystem bei der Annahme, Überprüfung und Abwicklung von Aufträgen unterstützen. Sie sind dafür verantwortlich, das System erfolgreich zu integrieren.
+
+## Scenario 2
+
+## Items
+
+### Depression
+
+SC06,SC12,SC13,SC14,SC15
+
+\_01 ... ziehe ich mich zurück und warte wie sich die Situation entwickelt.
+
+\_02 ... denke ich, dass die Aufgabenerfüllung sowieso nichts bringt.
+
+\_08 ... bin ich mir sicher, dass ich die Aufgabe erfüllen kann.
+
+\_04 ... habe ich die Energie, um die Aufgabe anzugehen.
+
+#### Scenario 1
+
+```{r}
+data_basic %>%
+  select(SC06_01, SC06_02, SC06_08, SC06_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+```
+
+#### Scenario 2
+
+```{r}
+data_basic %>%
+  select(SC12_01, SC12_02, SC12_08, SC12_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+```
+
+#### Scenario 3
+
+```{r}
+data_basic %>%
+  select(SC13_01, SC13_02, SC13_08, SC13_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+```
+
+#### Scenario 4
+
+```{r}
+data_basic %>%
+  select(SC14_01, SC14_02, SC14_08, SC14_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+```
+
+#### Scenario 5
+
+```{r}
+data_basic %>%
+  select(SC15_01, SC15_02, SC15_08, SC15_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+```
