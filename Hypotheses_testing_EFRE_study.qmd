@@ -1,0 +1,1012 @@
+---
+title: "Scenarios EFRE-Study"
+author: "Jule Schilling"
+date: "2026-07-23"
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    toc-expand: true
+    toc-title: "Table of Contents"
+execute:
+  echo: false      # Hides R code globally across all chunks
+  warning: false   # Mutes warnings globally
+  message: false   # Mutes package loading messages globally
+---
+
+```{r setup, include=FALSE}
+setwd("~/Desktop/Uni Würzburg/Forschung/EFRE_Studie/Data/Data_EFRE")
+load("EFRE_data.Rdata")
+
+library(dplyr)
+library(psych)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+```
+
+In this document: Hypotheses testing.
+
+## Main Scenarios
+
+## Hypothesis 1
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H1: Higher trait values in depression are related to withdrawal behavior in automated work situations.
+
+**--> H1 was supported across all scenarios.**
+
+**Depression**
+
+SC06,SC12,SC13,SC14,SC15
+
+\_01 ... ziehe ich mich zurück und warte wie sich die Situation entwickelt.
+
+\_02 ... denke ich, dass die Aufgabenerfüllung sowieso nichts bringt.
+
+\_08 ... bin ich mir sicher, dass ich die Aufgabe erfüllen kann. (R)
+
+\_04 ... habe ich die Energie, um die Aufgabe anzugehen. (R)
+
+#### Scenario 1
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC06_01, SC06_02, SC06_08, SC06_04, depression, psychopathy, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 1: Depression Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 2
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC12_01, SC12_02, SC12_08, SC12_04, depression)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 2: Depression Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 3
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC13_01, SC13_02, SC13_08, SC13_04, depression)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 3: Depression Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 4
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC14_01, SC14_02, SC14_08, SC14_04, depression)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 4: Depression Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 5
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC15_01, SC15_02, SC15_08, SC15_04, depression)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 5: Depression Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+## Hypothesis 2
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H2: Higher trait values in psychopathy are related to selfish and less empathic behavior in automated work situations.
+
+**--> H2 was partly supported.**
+
+**Psychopathy**
+
+SC07,SC16,SC17,SC18,SC19
+
+\_09 ... täusche ich vor, für die Aufgabe zu beschäftigt zu sein.
+
+\_10 ... versuche ich möglichst viele Vorteile für andere Mitarbeitende herauszuholen. (R)
+
+\_11 ... sind mir die Befindlichkeiten anderer Mitarbeitenden wichtig.(R)
+
+\_12 ... kann ich auch mal harte Entscheidungen treffen, die andere Mitarbeitende nicht fällen würden.
+
+#### Scenario 1
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC07_09, SC07_10, SC07_11, SC07_12, psychopathy, depression, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 1: Psychopathy Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 2
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC16_09, SC16_10, SC16_11, SC16_12, psychopathy, depression, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 2: Psychopathy Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 3
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC17_09, SC17_10, SC17_11, SC17_12, psychopathy, depression, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 3: Psychopathy Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 4
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC18_09, SC18_10, SC18_11, SC18_12, psychopathy, depression, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = TRUE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 4: Psychopathy Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 5
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC19_09, SC19_10, SC19_11, SC19_12, psychopathy, depression, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = TRUE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 5: Psychopathy Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = FALSE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+
+
+## Hypothesis 3
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H3: Higher trait values in trust in automation are related to more trusting behavior in automated work situations.
+
+**--> H3 was supported across all scenarios.**
+
+**Trust**
+
+SC08,SC20,SC21,SC22,SC23
+
+\_13 ... betrachte ich die Automatisierung als eine Art hilfreichen Partner.
+
+\_14 ... ist die Rolle der Automatisierung mit Skepsis zu betrachten. (R)
+
+\_15 ... habe ich Angst vor der Automatisierung. (R)
+
+\_16 ... vertraue ich auf die Automatisierung.
+
+#### Scenario 1
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC08_13, SC08_14, SC08_15, SC08_16, trust_automation_all, trust_humans, depression, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 1: Trust Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 2
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC20_13, SC20_14, SC20_15, SC20_16, trust_automation_all, trust_humans, depression, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 2: Trust Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 3
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC21_13, SC21_14, SC21_15, SC21_16, trust_automation_all, trust_humans, depression, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 3: Trust Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 4
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC22_13, SC22_14, SC22_15, SC22_16, trust_automation_all, trust_humans, depression, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = TRUE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 4: Trust Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = FALSE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+#### Scenario 5
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SC23_13, SC23_14, SC23_15, SC23_16, trust_automation_all, trust_humans, depression, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = TRUE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario 5: Trust Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = FALSE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+## Leadership scenarios
+
+## Leader's perspective: coercive behavior
+
+## Hypothesis 4
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H4: Higher trait values in psychopathy are associated with more coercive behavior.
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL04_08, SL04_04, SL04_10, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Leadership: Coersive Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+## Leader's perspective: cooperative behavior
+
+## Hypothesis 5,6,7,8
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+H5: Higher trait values in trust are associated with more cooperative behavior.
+
+H6: Higher trait values in prosocial tendencies are associated with more cooperative behavior.
+
+H7: Higher trait values in agreeableness are associated with more cooperative behavior.
+
+H8: Higher trait values in self-efficacy are associated with more cooperative behavior.
+
+--> partly supported; mostly unexpected effects for item 3 "...stelle ich eine Bonuszahlung in Aussicht, wenn die Zielvorgaben erfüllt werden. "
+
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL04_01, SL04_02, SL04_09, trust_automation_all, trust_humans, proso_tend, agreeablenesss, self_efficacy, psychopathy)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Leadership: Cooperative Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+
+
+
+
+
