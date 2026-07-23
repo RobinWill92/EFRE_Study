@@ -134,7 +134,10 @@ alpha_summary %>%
 
 ```
 
+### Distribution of variables
 
+<details>
+<summary><b>Click to expand.</b></summary>
 
 ```{r}
 hist(data_basic$depression)
@@ -160,4 +163,59 @@ hist(data_basic$proso_tend)
 hist(data_basic$anxiety)
 hist(data_basic$anger)
 ```
+
+
+## Intercorrelations of all variables
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(depression, psychopathy, machiavellianism, narcissism, trust_humans, trust_automation_all, extraversion, agreeablenesss, conscientiousness, openess, ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Intercorrelations of all study variables",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+
 
