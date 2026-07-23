@@ -26,67 +26,51 @@ library(kableExtra)
 
 ```
 
-In this document: Means, standard deviations and intercorrelations of scenario items.
+In this document: Means, standard deviations and intercorrelations of leadership scenario items.
 
 ## Scenarios
 
 All main scenarios.
 
-## Scenario 1
+## Scenario 1: Leadership perspective
 
 <details>
 <summary><b>Click to expand.</b></summary>
 
-Sie arbeiten in einem Logistikunternehmen und sind zusammen mit Ihren Kollegen für den reibungslosen Ablauf der Auftragsverwaltung zuständig. Derzeit erreichen Sie ungewöhnlich viele Aufträge, die in ihrem Umfang und der Dringlichkeit nur schwer zu bearbeiten sind. Die resultierende Mehrbelastung beeinträchtigt das Arbeitsklima. Nun soll ein Automatisierungssystem bei der Annahme, Überprüfung und Abwicklung von Aufträgen unterstützen. Sie sind dafür verantwortlich, das System erfolgreich zu integrieren.
+Sie sind Führungskraft in einem mittelständischen Unternehmen im Bereich Logistik. In Ihrem Team wird ein neues digitales System zur Steuerung der Lagerbestände eingeführt. Die Mitarbeitenden sollen an Schulungen teilnehmen und das System anschließend im laufenden Betrieb nutzen. Eine schnelle Einarbeitung aller Beteiligten ist notwendig, um die Zielvorgaben des Unternehmens zu erreichen. Dabei lassen sich zusätzliche Arbeitsstunden vorübergehend nicht vermeiden. Sie stellen fest, dass dies im Team zunehmend für Unzufriedenheit sorgt.
 
-## Scenario 2
-
-<details>
-<summary><b>Click to expand.</b></summary>
-
-
-Sie sind in der Verwaltung eines Unternehmens angestellt, welches Elektronikkomponenten herstellt. Ihr Arbeitgeber hat vor einigen Wochen mehrere Prozesse automatisiert, die Teil der Personalabrechnung sind. Seitdem treten viele unerwartete Probleme auf, die Sie ständig korrigieren müssen. Beispielsweise wurde Ihnen von Angestellten mitgeteilt, dass Löhne falsch oder zu spät gezahlt wurden. Daher hat sich die Arbeitslast in Ihrem Team deutlich erhöht. Ihr Team wurde beauftragt, nicht nur die Probleme zu lösen, sondern auch die Fehleranfälligkeit der automatisierten Prozesse zu verringern.
-
-## Scenario 3
+## Scenario 2: Employee perspective
 
 <details>
 <summary><b>Click to expand.</b></summary>
 
-Sie sind als Qualitätssicherungsbeauftragter in einem Unternehmen angestellt, das metallische Bauteile produziert. In den letzten Jahren sind in der Branche der Wettbewerbsdruck sowie die Anforderungen hinsichtlich kürzerer Lieferzeiten und geringerer Fehlerquoten gestiegen. Damit hat sich die Arbeitslast deutlich erhöht. Um den Anforderungen des Wettbewerbs standzuhalten, entscheidet sich die Geschäftsführung, ein halbautomatisiertes Qualitätssicherungssystem einzuführen. Dieses System nutzt Kameras, Machine-Learning-Algorithmen und Sensoren, um Bauteile während der Produktion automatisch auf Maßabweichung zu prüfen. Da es in Zukunft Teil der Qualitätssicherung sein wird, ist es Ihre Aufgabe, sich mit dem System vertraut zu machen.
 
-## Scenario 4
+Sie sind Angestellte/r in einem mittelständischen Unternehmen im Verwaltungsbereich. Die Arbeitslast ist bereits hoch. In Ihrem Team wird derzeit ein neues digitales Tool eingeführt, das eingehende Dokumente automatisch prüft, bestimmten Kategorien zuordnet und automatisiert bearbeitet. In der Anfangsphase muss jedoch eine aufwändige Nachkontrolle und Feedback an das System durch Mitarbeitende erfolgen. Diese Rückmeldungen sollen dem System helfen, zukünftig selbstständig zuverlässig zu arbeiten. Die Führungsebene legt großen Wert auf die Erfüllung der Zielvorgaben.
 
-<details>
-<summary><b>Click to expand.</b></summary>
-
-Sie sind in einem Trockenbaubetrieb als Handwerker angestellt. Bisher hat die Abteilung, in der Sie arbeiten, die für einen Auftrag benötigten Materialmengen manuell berechnet. Das war fehleranfällig und zeitaufwändig. Deshalb wird aktuell ein neuer automatisierter Prozess für die Berechnung eingeführt. Im Zuge dessen gibt es eine Menge neuer Funktionen und die Erwartung den Prozess zügig in den Arbeitsablauf einzubauen. Die Abteilung ist deshalb dazu angehalten, die Automatisierung in ihre Arbeitsroutine einzufügen.
-
-## Scenario 5
-
-<details>
-<summary><b>Click to expand.</b></summary>
-
-Sie arbeiten in der Kundenbetreuung eines Onlinehändlers. Sie und Ihre Kollegen werden oft durch häufige Kundenanfragen in Ihrem Arbeitsfluss gestört. Das Unternehmen hat vor kurzem deshalb einen Chatbot eingeführt, der Anfragen und Beschwerden automatisiert bearbeitet. Einfache Anliegen konnten bislang effizient gelöst werden. Allerdings zeigte sich, dass eine Automatisierung im Umgang mit komplexen oder emotionalen Kundenanliegen zu Problemen führen kann. Ihre Kollegen und Sie müssen nun herausfinden, wie der Chatbot Ihren Arbeitsfluss verbessern kann, ohne dass sich der Kundenservice verschlechtert.
 
 ## Items
 
-### Depression
+### Leadership: Cooperation (+) / Coercion (-)
 
 <details>
 <summary><b>Click to expand.</b></summary>
 
 
-SC06,SC12,SC13,SC14,SC15
+SL04
 
-\_01 ... ziehe ich mich zurück und warte wie sich die Situation entwickelt.
+\_01 ...suche ich das Gespräch mit einzelnen Mitarbeitenden, um Lösungen zu finden. (+)
 
-\_02 ... denke ich, dass die Aufgabenerfüllung sowieso nichts bringt.
+\_02 ...vereinbare ich mit den Mitarbeitenden, wann die geleisteten Überstunden wieder abgebaut werden können. (+)
 
-\_08 ... bin ich mir sicher, dass ich die Aufgabe erfüllen kann. (R)
+\_08 ...verhänge ich eine Urlaubssperre, bis die Zielvorgaben erfüllt sind. (-)
 
-\_04 ... habe ich die Energie, um die Aufgabe anzugehen. (R)
+\_04 ...weise ich darauf hin, dass Nichterfüllen der Zielvorgaben dazu führt, dass eine Gehaltserhöhnung nicht stattfinden kann. (-)
 
-#### Scenario 1
+_09 ...stelle ich eine Bonuszahlung in Aussicht, wenn die Zielvorgaben erfüllt werden. (+)
+
+_10 ...stelle ich dem Team in Zukunft unangenehme Aufgaben in Aussicht, wenn das Ziel nicht erreicht wird. (-)
+
+#### Scenario: Leadership
 
 ```{r}
 # 1. Select your target subset
