@@ -199,6 +199,9 @@ final_table %>%
 ## Order effects leadership scenario
 
 ### Cooperation
+<details>
+<summary><b>Click to expand.</b></summary>
+
 Cooperation items. Are there effects of which scenario is presented first for cooperation in the leadership perspective?
 Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
 
@@ -238,6 +241,10 @@ cohens_d(SL04_09 ~ order_leadership, data = data_basic)
 
 ### Coercion
 
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
 Coercion items. Are there effects of which scenario is presented first for coercion in the leadership perspective?
 Employee first - Leader first; positive values indicate that there is more coersive behavior when the employee scenario is presented first
 
@@ -270,6 +277,10 @@ cohens_d(SL04_10 ~ order_leadership, data = data_basic)
 ## Order effects employee scenario
 
 ### Cooperation
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
 Cooperation items. Are there effects of which scenario is presented first for cooperation in the employee perspective?
 Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
 
@@ -301,6 +312,10 @@ cohens_d(SL05_04 ~ order_leadership, data = data_basic)
 ```
 
 ### Reactance
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
 
 Reactance items. Are there effects of which scenario is presented first for reactance in the employee perspective?
 Employee first - Leader first; positive values indicate that there is more reactant behavior when the employee scenario is presented first
