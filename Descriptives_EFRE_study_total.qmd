@@ -212,7 +212,7 @@ final_table %>%
   ) %>%
   add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
   footnote(
-    general       = "Scale: 1 - 100.",
+    general       = "",
     general_title = "Note: "
   )
 ```
