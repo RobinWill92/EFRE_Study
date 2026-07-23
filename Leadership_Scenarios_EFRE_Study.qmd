@@ -23,6 +23,8 @@ library(psych)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
+library(effectsize)
+
 
 ```
 
@@ -193,4 +195,41 @@ final_table %>%
     general_title = "Note: "
   )
 ```
+
+## Order effects leadership scenario
+
+Cooperation items.
+
+```{r}
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+# Compare means for cooperation: leadership scenario
+means_order_effect_leadership_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_01, SL04_02, SL04_09), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+t.test(SL04_01 ~ order_leadership, data = data_basic)
+cohens_d(SL04_01 ~ order_leadership, data = data_basic)
+
+t.test(SL04_02 ~ order_leadership, data = data_basic)
+cohens_d(SL04_02 ~ order_leadership, data = data_basic)
+
+t.test(SL04_09 ~ order_leadership, data = data_basic)
+cohens_d(SL04_09 ~ order_leadership, data = data_basic)
+```
+
 
