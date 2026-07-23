@@ -198,7 +198,11 @@ final_table %>%
 
 ## Order effects leadership scenario
 
-Cooperation items.
+### Cooperation
+Cooperation items. Are there effects of which scenario is presented first for cooperation in the leadership perspective?
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for item: "Suche ich das Gespräch mit den Mitarbeitenden, wann die geleisteten Überstunden wieder abgebaut werden können."
 
 ```{r}
 data_basic <- data_basic %>%
@@ -231,5 +235,101 @@ cohens_d(SL04_02 ~ order_leadership, data = data_basic)
 t.test(SL04_09 ~ order_leadership, data = data_basic)
 cohens_d(SL04_09 ~ order_leadership, data = data_basic)
 ```
+
+### Coercion
+
+Coercion items. Are there effects of which scenario is presented first for coercion in the leadership perspective?
+Employee first - Leader first; positive values indicate that there is more coersive behavior when the employee scenario is presented first
+
+Expected "empathy effect" for item: "stelle ich dem Team in Zukunft unangenehme Aufgaben in Aussicht."
+
+
+```{r}
+means_order_effect_leadership_coersive <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_08, SL04_04, SL04_10), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL04_08 ~ order_leadership, data = data_basic)
+cohens_d(SL04_08 ~ order_leadership, data = data_basic)
+
+t.test(SL04_04 ~ order_leadership, data = data_basic)
+cohens_d(SL04_04 ~ order_leadership, data = data_basic)
+
+t.test(SL04_10 ~ order_leadership, data = data_basic)
+cohens_d(SL04_10 ~ order_leadership, data = data_basic)
+```
+
+
+## Order effects employee scenario
+
+### Cooperation
+Cooperation items. Are there effects of which scenario is presented first for cooperation in the employee perspective?
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for none of the items. However d =.2 for item "suche ich das Gespräch mit der Führungskraft, um über die hohe Arbeitsbelastung zu sprechen."
+
+```{r}
+# Compare means for cooperation: employee scenario
+means_order_effect_employee_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_02, SL05_03, SL05_04), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_02 ~ order_leadership, data = data_basic)
+cohens_d(SL05_02 ~ order_leadership, data = data_basic)
+
+t.test(SL05_03 ~ order_leadership, data = data_basic)
+cohens_d(SL05_03 ~ order_leadership, data = data_basic)
+
+t.test(SL05_04 ~ order_leadership, data = data_basic)
+cohens_d(SL05_04 ~ order_leadership, data = data_basic)
+
+
+```
+
+### Reactance
+
+Reactance items. Are there effects of which scenario is presented first for reactance in the employee perspective?
+Employee first - Leader first; positive values indicate that there is more reactant behavior when the employee scenario is presented first
+
+More reactant behavior when first presented with leadership scenario for item: "äußere ich meinen Unmut über die Situation beim Betriebsrat"
+
+```{r}
+means_order_effect_employee_reactant <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_01, SL05_05, SL05_06), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_01 ~ order_leadership, data = data_basic)
+cohens_d(SL05_01 ~ order_leadership, data = data_basic)
+
+t.test(SL05_05 ~ order_leadership, data = data_basic)
+cohens_d(SL05_05 ~ order_leadership, data = data_basic)
+
+t.test(SL05_06 ~ order_leadership, data = data_basic)
+cohens_d(SL05_06 ~ order_leadership, data = data_basic)
+```
+
+
+
 
 
