@@ -23,6 +23,7 @@ library(psych)
 library(tidyverse)
 library(knitr)
 library(kableExtra)
+library(effectsize)
 
 ```
 
@@ -1004,6 +1005,85 @@ final_table %>%
     general_title = "Note: "
   )
 ```
+
+
+## Hypothesis 9
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H9: Cooperative behavior is higher when participants are first presented with the employees’ perspective (i.e., employees’ perspective first) than if they are first presented with the leaders’ perspective (i.e., leaders’ perspective first)
+
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for item: "Suche ich das Gespräch mit den Mitarbeitenden, wann die geleisteten Überstunden wieder abgebaut werden können."; no effect for other items --> Hypothesis partly supported
+
+```{r}
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+# Compare means for cooperation: leadership scenario
+means_order_effect_leadership_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_01, SL04_02, SL04_09), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+t.test(SL04_01 ~ order_leadership, data = data_basic)
+cohens_d(SL04_01 ~ order_leadership, data = data_basic)
+
+t.test(SL04_02 ~ order_leadership, data = data_basic)
+cohens_d(SL04_02 ~ order_leadership, data = data_basic)
+
+t.test(SL04_09 ~ order_leadership, data = data_basic)
+cohens_d(SL04_09 ~ order_leadership, data = data_basic)
+```
+
+## Hypothesis 10
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H10: Coersive behavior is lower when participants are first presented with the employees’ perspective than if they are first presented with the leaders’ perspective
+
+Employee first - Leader first; positive values indicate that there is more coersive behavior when the employee scenario is presented first
+
+Expected "empathy effect" for all items. Hypothesis was supported for all items.
+
+
+```{r}
+means_order_effect_leadership_coersive <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_08, SL04_04, SL04_10), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL04_08 ~ order_leadership, data = data_basic)
+cohens_d(SL04_08 ~ order_leadership, data = data_basic)
+
+t.test(SL04_04 ~ order_leadership, data = data_basic)
+cohens_d(SL04_04 ~ order_leadership, data = data_basic)
+
+t.test(SL04_10 ~ order_leadership, data = data_basic)
+cohens_d(SL04_10 ~ order_leadership, data = data_basic)
+```
+
 
 
 

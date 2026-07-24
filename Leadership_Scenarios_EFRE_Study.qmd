@@ -248,7 +248,7 @@ cohens_d(SL04_09 ~ order_leadership, data = data_basic)
 Coercion items. Are there effects of which scenario is presented first for coercion in the leadership perspective?
 Employee first - Leader first; positive values indicate that there is more coersive behavior when the employee scenario is presented first
 
-Expected "empathy effect" for item: "stelle ich dem Team in Zukunft unangenehme Aufgaben in Aussicht."
+Expected "empathy effect" for all items. 
 
 
 ```{r}
