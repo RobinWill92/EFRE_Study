@@ -1298,12 +1298,13 @@ cohens_d(SL05_06 ~ order_leadership, data = data_basic)
 
 ## Interaction order effect with trait variables
 
+## Leadership perspective
+
+
 ## Hypothesis 19
 
 <details>
 <summary><b>Click to expand.</b></summary>
-
-## Leadership perspective
 
 H19: If psychopathy is low, the order effect of employees’ perspective first versus leaders’ perspective first on coersive behavior (H10) is higher than if psychopathy is high.
 
@@ -1336,6 +1337,10 @@ Anova(model, type = 3)
 
 ```
 ## Hypotheses 20,21,22
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
 
 H20: If trust is low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H9) is higher than if trust is high.
 
