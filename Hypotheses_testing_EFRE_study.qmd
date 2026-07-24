@@ -24,6 +24,7 @@ library(tidyverse)
 library(knitr)
 library(kableExtra)
 library(effectsize)
+library(car)
 
 ```
 
@@ -1006,6 +1007,7 @@ final_table %>%
   )
 ```
 
+# Order effect
 
 ## Hypothesis 9
 
@@ -1085,8 +1087,300 @@ cohens_d(SL04_10 ~ order_leadership, data = data_basic)
 ```
 
 
+## Employee's perspective: reactant behavior
+
+## Hypothesis 11, 14, 16
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H11: Lower trait values in agreeableness are associated with more reactant behavior.
+
+H14: Higher trait values in psychopathy are associated with more reactant behavior.
+
+H16: Higher trait values in depression are associated with more reactant behavior.
+
+--> agreeableness not supported; depression and psychopathy partly supported.
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL05_01, SL05_05, SL05_06, agreeablenesss, psychopathy, depression)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Employsee: Reactant Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+## Employee's perspective: cooperative behavior
+
+## Hypothesis 12, 13, 15
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H12: Higher trait values in conscientiousness are associated with more cooperative behavior.
+
+H13: Higher trait values in agreeableness are associated with more cooperative behavior.
+
+H15: Higher trait values in trust are associated with more cooperative behavior.
+
+
+---> all hypotheses partly supported
+
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL05_02, SL05_03, SL05_04, conscientiousness, agreeablenesss, trust_humans, trust_automation_all)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Employsee: Reactant Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100.",
+    general_title = "Note: "
+  )
+```
+
+
+## Order effect
+
+## Hypothesis 17
+
+H17: Cooperative behavior is higher when participants are first presented with the leaders’ perspective than if they are first presented with the employees’ perspective.
+
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for none of the items. However d =.2 for item "suche ich das Gespräch mit der Führungskraft, um über die hohe Arbeitsbelastung zu sprechen."
+
+--> Hypothesis not supported
+
+```{r}
+# Compare means for cooperation: employee scenario
+means_order_effect_employee_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_02, SL05_03, SL05_04), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_02 ~ order_leadership, data = data_basic)
+cohens_d(SL05_02 ~ order_leadership, data = data_basic)
+
+t.test(SL05_03 ~ order_leadership, data = data_basic)
+cohens_d(SL05_03 ~ order_leadership, data = data_basic)
+
+t.test(SL05_04 ~ order_leadership, data = data_basic)
+cohens_d(SL05_04 ~ order_leadership, data = data_basic)
+
+
+```
+
+
+## Hypothesis 18
+
+H18: Reactant behavior is lower when participants are first presented with the leaders’ perspective than if they are first presented with the employees’ perspective.
+
+Employee first - Leader first; positive values indicate that there is more reactant behavior when the employee scenario is presented first
+
+More reactant behavior when first presented with leadership scenario for item: "äußere ich meinen Unmut über die Situation beim Betriebsrat"
+
+--> hypothesis not supported
+
+```{r}
+means_order_effect_employee_reactant <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_01, SL05_05, SL05_06), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_01 ~ order_leadership, data = data_basic)
+cohens_d(SL05_01 ~ order_leadership, data = data_basic)
+
+t.test(SL05_05 ~ order_leadership, data = data_basic)
+cohens_d(SL05_05 ~ order_leadership, data = data_basic)
+
+t.test(SL05_06 ~ order_leadership, data = data_basic)
+cohens_d(SL05_06 ~ order_leadership, data = data_basic)
+```
+
+# Interaction order effect with trait variables
+
+````{r}
+interaction order effects with trait variables ----
+
+## leader perspective; coop behav (SL04_01, SL04_02, SL04_09)
+# trust
+data_basic <- data_basic %>% # centering trust_all
+  mutate(
+    trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * trust_all_cent, data = data_basic)
+Anova(model, type = 3)
+
+# prosocial tendencies
+data_basic <- data_basic %>% # centering proso_tend
+  mutate(
+    proso_tend_cent = scale(proso_tend, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * proso_tend_cent, data = data_basic)
+Anova(model, type = 3)
+
+# agreeableness
+data_basic <- data_basic %>% # centering agreeablenesss
+  mutate(
+    agreeablenesss_cent = scale(agreeablenesss, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_01 ~ order_leadership * agreeablenesss_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+## leader perspective; coersive behav (SL04_08, SL04_04, SL04_10)
+# psychopathy
+data_basic <- data_basic %>% # centering psychopathy
+  mutate(
+    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_08 ~ order_leadership * psychopathy_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+## employees perspective; coop behav (SL05_02, SL05_03, SL05_04)
+# trust
+data_basic <- data_basic %>% # centering trust_all
+  mutate(
+    trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * trust_all_cent, data = data_basic)
+Anova(model, type = 3)
+
+# prosocial tendencies
+data_basic <- data_basic %>% # centering proso_tend
+  mutate(
+    proso_tend_cent = scale(proso_tend, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * proso_tend_cent, data = data_basic)
+Anova(model, type = 3)
+
+# agreeableness
+data_basic <- data_basic %>% # centering agreeablenesss
+  mutate(
+    agreeablenesss_cent = scale(agreeablenesss, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * agreeablenesss_cent, data = data_basic)
+Anova(model, type = 3)
 
 
 
+## employees perspective; reactant behav (SL05_01, SL05_05, SL05_06)
+# psychopathy
+data_basic <- data_basic %>% # centering psychopathy
+  mutate(
+    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
+  )
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_01 ~ order_leadership * psychopathy_cent, data = data_basic)
+Anova(model, type = 3)
 
-
+`````

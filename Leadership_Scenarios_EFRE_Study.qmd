@@ -144,7 +144,7 @@ _05 ...äußere ich meinen Unmut über die Situation beim Betriebsrat. (-)
 
 _06 ...mache ich das Gegenteil von dem, was von mir verlangt wird und gebe dem System bewusst falsches Feedback. (-)
 
-#### Scenario: Leadership
+#### Scenario: Employee
 
 ```{r}
 # 1. Select your target subset
