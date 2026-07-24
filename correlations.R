@@ -294,17 +294,80 @@ data_basic %>%
 
 
 
-#6. order effects----
+### 5.1 "clean correlations" separately for order conditions-----
+
 #create groups for order effect
 data_basic <- data_basic %>%
   mutate(
     order_leadership = factor(
       case_when(
-      ZU02_01 == 1 ~ "leader first",
-      ZU02_02 == 1 ~ "employee first",
-      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
-    )
-  ))
+        ZU02_01 == 1 ~ "leader first",
+        ZU02_02 == 1 ~ "employee first",
+        TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+      )
+    ))
+
+data_basic_leader_first <- data_basic %>%
+  filter(order_leadership == "leader first")
+
+
+#leadership perspective
+#cooperative items
+data_basic_leader_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_01, SL04_02, SL04_09) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2) #Item SL04_09 seems to not have worked as predicted
+
+#coersive items
+data_basic_leader_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_08, SL04_04, SL04_10) %>% 
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+#employee's perspective 
+#cooperative items
+data_basic_leader_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL05_02, SL05_03, SL05_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#reactant items
+data_basic_leader_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL05_01, SL05_05, SL05_06) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+
+data_basic_employee_first <- data_basic %>%
+  filter(order_leadership == "employee first")
+
+
+#leadership perspective
+#cooperative items
+data_basic_employee_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_01, SL04_02, SL04_09) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2) #Item SL04_09 seems to not have worked as predicted
+
+#coersive items
+data_basic_employee_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL04_08, SL04_04, SL04_10) %>% 
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+#employee's perspective 
+#cooperative items
+data_basic_employee_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL05_02, SL05_03, SL05_04) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+#reactant items
+data_basic_employee_first %>%
+  select(depression, psychopathy, proso_tend, agreeablenesss, self_efficacy, conscientiousness, trust_all, trust_wia, trust_secure, trust_humans, trust_automation, trust_literacy,
+         SL05_01, SL05_05, SL05_06) %>%
+  cor(use = "pairwise.complete.obs") %>% round(2)
+
+
+#6. order effects----
 
 # Compare means for cooperation: leadership scenario
 means_order_effect_leadership_cooperation <- data_basic %>%
