@@ -4,6 +4,7 @@ author: "Jule Schilling"
 date: "2026-07-23"
 format: 
   html:
+    embed-resources: true
     toc: true
     toc-depth: 4
     toc-expand: true
