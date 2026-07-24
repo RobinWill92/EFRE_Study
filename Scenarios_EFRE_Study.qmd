@@ -136,6 +136,7 @@ final_table %>%
     general       = "Scale: 1 - 100.",
     general_title = "Note: "
   )
+
 ```
 
 #### Scenario 2
