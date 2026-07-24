@@ -1007,7 +1007,7 @@ final_table %>%
   )
 ```
 
-# Order effect
+## Order effect
 
 ## Hypothesis 9
 
