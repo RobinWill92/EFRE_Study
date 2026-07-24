@@ -1224,6 +1224,9 @@ final_table %>%
 
 ## Hypothesis 17
 
+<details>
+<summary><b>Click to expand.</b></summary>
+
 H17: Cooperative behavior is higher when participants are first presented with the leaders’ perspective than if they are first presented with the employees’ perspective.
 
 Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
@@ -1260,6 +1263,9 @@ cohens_d(SL05_04 ~ order_leadership, data = data_basic)
 
 ## Hypothesis 18
 
+<details>
+<summary><b>Click to expand.</b></summary>
+
 H18: Reactant behavior is lower when participants are first presented with the leaders’ perspective than if they are first presented with the employees’ perspective.
 
 Employee first - Leader first; positive values indicate that there is more reactant behavior when the employee scenario is presented first
@@ -1290,21 +1296,98 @@ t.test(SL05_06 ~ order_leadership, data = data_basic)
 cohens_d(SL05_06 ~ order_leadership, data = data_basic)
 ```
 
-# Interaction order effect with trait variables
+## Interaction order effect with trait variables
 
-````{r}
-interaction order effects with trait variables ----
+## Hypothesis 19
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+## Leadership perspective
+
+H19: If psychopathy is low, the order effect of employees’ perspective first versus leaders’ perspective first on coersive behavior (H10) is higher than if psychopathy is high.
+
+--> not supported
+
+```{r}
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+data_basic <- data_basic %>% # centering psychopathy
+  mutate(
+    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
+  )
+
+
+
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL04_08 ~ order_leadership * psychopathy_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+
+```
+## Hypotheses 20,21,22
+
+H20: If trust is low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H9) is higher than if trust is high.
+
+H21: If prosocial tendencies are low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H9) is higher than if prosocial tendencies are high.
+
+H22: If agreeableness is low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H9) is higher than if agreeableness is high.
+
+--> all hypotheses not supported
+
+```{r}
 
 ## leader perspective; coop behav (SL04_01, SL04_02, SL04_09)
 # trust
+#H20
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+
 data_basic <- data_basic %>% # centering trust_all
   mutate(
     trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
   )
+
+
+
 # Anova
 options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL04_01 ~ order_leadership * trust_all_cent, data = data_basic)
 Anova(model, type = 3)
+
+
+
+```
+
+```{r}
+#H21
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
 
 # prosocial tendencies
 data_basic <- data_basic %>% # centering proso_tend
@@ -1315,6 +1398,19 @@ data_basic <- data_basic %>% # centering proso_tend
 options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL04_01 ~ order_leadership * proso_tend_cent, data = data_basic)
 Anova(model, type = 3)
+```
+
+```{r}
+#H22
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
 
 # agreeableness
 data_basic <- data_basic %>% # centering agreeablenesss
@@ -1326,8 +1422,30 @@ options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL04_01 ~ order_leadership * agreeablenesss_cent, data = data_basic)
 Anova(model, type = 3)
 
+```
 
-## leader perspective; coersive behav (SL04_08, SL04_04, SL04_10)
+
+## Employee's perspective
+## Hypothesis 23
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H23: If psychopathy is low, the order effect of employees’ perspective first versus leaders’ perspective first on reactant behavior (18) is higher than if psychopathy is high.
+
+```{r}
+
+#H23
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+## employees perspective; reactant behav (SL05_01, SL05_05, SL05_06)
 # psychopathy
 data_basic <- data_basic %>% # centering psychopathy
   mutate(
@@ -1335,9 +1453,36 @@ data_basic <- data_basic %>% # centering psychopathy
   )
 # Anova
 options(contrasts = c("contr.sum", "contr.poly"))
-model <- lm(SL04_08 ~ order_leadership * psychopathy_cent, data = data_basic)
+model <- lm(SL05_01 ~ order_leadership * psychopathy_cent, data = data_basic)
 Anova(model, type = 3)
+```
 
+## Hypotheses 24,25,26
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+H24: If trust is low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H17) is higher than if trust is high.
+
+--> supported(?)
+
+H25: If prosocial tendencies are low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H17) is higher than if prosocial tendencies are high.
+
+H26: If agreeableness is low, the order effect of employees’ perspective first versus leaders’ perspective first on cooperative behavior (H17) is higher than if agreeableness is high.
+
+--> H25 & 26 not supported
+
+```{r}
+#H24
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
 
 ## employees perspective; coop behav (SL05_02, SL05_03, SL05_04)
 # trust
@@ -1350,6 +1495,54 @@ options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL05_02 ~ order_leadership * trust_all_cent, data = data_basic)
 Anova(model, type = 3)
 
+```
+
+```{r}
+library(sjPlot)
+#H24
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+## employees perspective; coop behav (SL05_02, SL05_03, SL05_04)
+# trust
+data_basic <- data_basic %>% # centering trust_all
+  mutate(
+    trust_all_cent = scale(trust_all, center = TRUE, scale = FALSE)
+  )
+
+data_basic$trust_all_cent <- as.numeric(data_basic$trust_all_cent)
+
+# Anova
+options(contrasts = c("contr.sum", "contr.poly"))
+model <- lm(SL05_02 ~ order_leadership * trust_all_cent, data = data_basic)
+Anova(model, type = 3)
+
+
+
+plot_model(model, type = "int")
+```
+
+```{r}
+
+#H25
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+
 # prosocial tendencies
 data_basic <- data_basic %>% # centering proso_tend
   mutate(
@@ -1359,6 +1552,19 @@ data_basic <- data_basic %>% # centering proso_tend
 options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL05_02 ~ order_leadership * proso_tend_cent, data = data_basic)
 Anova(model, type = 3)
+```
+
+```{r}
+#H26
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
 
 # agreeableness
 data_basic <- data_basic %>% # centering agreeablenesss
@@ -1370,17 +1576,6 @@ options(contrasts = c("contr.sum", "contr.poly"))
 model <- lm(SL05_02 ~ order_leadership * agreeablenesss_cent, data = data_basic)
 Anova(model, type = 3)
 
+```
 
 
-## employees perspective; reactant behav (SL05_01, SL05_05, SL05_06)
-# psychopathy
-data_basic <- data_basic %>% # centering psychopathy
-  mutate(
-    psychopathy_cent = scale(psychopathy, center = TRUE, scale = FALSE)
-  )
-# Anova
-options(contrasts = c("contr.sum", "contr.poly"))
-model <- lm(SL05_01 ~ order_leadership * psychopathy_cent, data = data_basic)
-Anova(model, type = 3)
-
-`````
