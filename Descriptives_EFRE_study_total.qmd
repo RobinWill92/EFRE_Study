@@ -23,7 +23,6 @@ library(dplyr)
 library(psych)
 ```
 
-
 In this document: Sample characteristics, means, standard deviations and Cronbach's alphas for all questionnaires.
 
 ## Sample
@@ -57,8 +56,7 @@ mean(data_basic$CN02)
 
 Depression (Allgemeine Depressionsskala - Kurzform), *Scale: 1-4*
 
-Trust in Automation (Avatar Trust Scale modified; also includes items for trust in humans), *Scale: 1 - 5*
-(*Anmerkung an mich: ggf. Avatar Scales zusammenfassen und Human Scale separat lassen*)
+Trust in Automation (Avatar Trust Scale modified; also includes items for trust in humans), *Scale: 1 - 5* (*Anmerkung an mich: ggf. Avatar Scales zusammenfassen und Human Scale separat lassen*)
 
 Big Five (Big Five Inventory Short version), *Scale: 1 - 5*
 
@@ -138,6 +136,7 @@ alpha_summary %>%
 ### Distribution of variables
 
 <details>
+
 <summary><b>Click to expand.</b></summary>
 
 ```{r}
@@ -169,54 +168,100 @@ hist(data_basic$anger)
 ## Intercorrelations of all variables
 
 ```{r}
-# 1. Select your target subset
+library(tidyverse)
+library(Hmisc)
+library(knitr)
+library(kableExtra)
+
+# 1. Select your target variables
 vars <- data_basic %>% 
   select(depression, psychopathy, machiavellianism, narcissism, trust_humans, trust_automation_all, extraversion, agreeablenesss, conscientiousness, openess, ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger)
 
-# 2. Calculate Means and SDs across all columns automatically
-means <- colMeans(vars, na.rm = TRUE)
-sds   <- apply(vars, 2, sd, na.rm = TRUE)
+# 2. Compute Correlations AND p-values
+cor_results <- rcorr(as.matrix(vars))
+r_mat       <- cor_results$r
+p_mat       <- cor_results$P
 
-# 3. Calculate Correlation Matrix (your code)
-cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+# 3. Format values: Apply cell_spec(..., bold = TRUE) for significant cells
+cor_formatted <- matrix("", nrow = nrow(r_mat), ncol = ncol(r_mat))
 
-# Format correlations (remove leading 0s for APA style)
-cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
-  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
-})
+for (i in 1:nrow(r_mat)) {
+  for (j in 1:ncol(r_mat)) {
+    val <- sprintf("%.2f", r_mat[i, j]) %>% 
+      gsub("^0\\.", ".", .) %>% 
+      gsub("^-0\\.", "-.", .)
+    
+    if (!is.na(p_mat[i, j]) && p_mat[i, j] < .05) {
+      # Use cell_spec to force true HTML bold formatting
+      cor_formatted[i, j] <- cell_spec(val, "html", bold = TRUE)
+    } else {
+      # Keep non-significant values plain
+      cor_formatted[i, j] <- val
+    }
+  }
+}
 
-# Blank out the upper triangle and diagonal
+# 4. Blank out upper triangle and diagonal
 cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
 
-# 4. Combine into a single table data frame
+# 5. Build final data frame
 final_table <- data.frame(
   Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
-  M        = sprintf("%.2f", means),
-  SD       = sprintf("%.2f", sds),
   cor_formatted,
   check.names = FALSE
 )
 
-# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
-colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+colnames(final_table)[2:ncol(final_table)] <- 1:ncol(vars)
 
-# 5. Display with kableExtra
+# 6. Render with kableExtra (CRITICAL: escape = FALSE allows HTML formatting)
 final_table %>%
   kbl(
-    caption   = "Intercorrelations of all study variables",
-    align     = c("l", "c", "c", rep("c", ncol(vars))),
-    row.names = FALSE
+    caption   = "Intercorrelation Matrix",
+    align     = c("l", rep("c", ncol(vars))),
+    row.names = FALSE,
+    escape    = FALSE  # <-- Tells kable NOT to convert HTML tags into plain text
   ) %>%
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed"),
-    full_width        = TRUE
+    full_width        = FALSE
   ) %>%
-  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  add_header_above(c(" " = 1, "Correlations" = ncol(vars))) %>%
   footnote(
-    general       = "",
+    general       = "Bold values indicate statistically significant correlations (p < .05).",
     general_title = "Note: "
   )
 ```
 
+```{r}
+#| fig.width: 15
+#| fig.height: 25
+#| out.width: "100%"
 
 
+library(tidyverse)
+library(ggcorrplot)
+
+# 1. Select target variables
+vars <- data_basic %>% 
+  select(depression, psychopathy, machiavellianism, narcissism, trust_humans, trust_automation_all, extraversion, agreeablenesss, conscientiousness, openess, ciss_task, ciss_emotion, ciss_avoidance, self_efficacy, proso_tend, anxiety, anger)
+
+# 2. Compute correlation matrix and p-values
+cor_mat <- cor(vars, use = "pairwise.complete.obs")
+p_mat   <- cor_pmat(vars)
+
+ggcorrplot(
+  cor_mat,
+  type        = "lower",        # Display lower triangle only
+  hc.order    = FALSE,          # Keep original variable order
+  lab         = TRUE,           # Display correlation values on tiles
+  lab_size    = 3.5,            # Size of correlation numbers
+  colors      = c("#6D9EC1", "white", "#E46726"), # Cool-to-warm palette
+  outline.col = "white"
+) +
+  theme_minimal() +
+  # Force x-axis text rotation AFTER applying theme_minimal()
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)
+  ) +
+  labs(title = "Intercorrelation Heatmap")
+```
