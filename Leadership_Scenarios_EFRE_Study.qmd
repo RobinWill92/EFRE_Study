@@ -1,0 +1,351 @@
+---
+title: "Leadership Scenarios EFRE-Study"
+author: "Jule Schilling"
+date: "2026-07-23"
+format: 
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 4
+    toc-expand: true
+    toc-title: "Table of Contents"
+execute:
+  echo: false      # Hides R code globally across all chunks
+  warning: false   # Mutes warnings globally
+  message: false   # Mutes package loading messages globally
+---
+
+```{r setup, include=FALSE}
+setwd("~/Desktop/Uni Würzburg/Forschung/EFRE_Studie/Data/Data_EFRE")
+load("EFRE_data.Rdata")
+
+library(dplyr)
+library(psych)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(effectsize)
+
+
+```
+
+In this document: Means, standard deviations and intercorrelations of leadership scenario items.
+
+## Scenarios
+
+All main scenarios.
+
+## Scenario 1: Leadership perspective
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+Sie sind Führungskraft in einem mittelständischen Unternehmen im Bereich Logistik. In Ihrem Team wird ein neues digitales System zur Steuerung der Lagerbestände eingeführt. Die Mitarbeitenden sollen an Schulungen teilnehmen und das System anschließend im laufenden Betrieb nutzen. Eine schnelle Einarbeitung aller Beteiligten ist notwendig, um die Zielvorgaben des Unternehmens zu erreichen. Dabei lassen sich zusätzliche Arbeitsstunden vorübergehend nicht vermeiden. Sie stellen fest, dass dies im Team zunehmend für Unzufriedenheit sorgt.
+
+## Scenario 2: Employee perspective
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+Sie sind Angestellte/r in einem mittelständischen Unternehmen im Verwaltungsbereich. Die Arbeitslast ist bereits hoch. In Ihrem Team wird derzeit ein neues digitales Tool eingeführt, das eingehende Dokumente automatisch prüft, bestimmten Kategorien zuordnet und automatisiert bearbeitet. In der Anfangsphase muss jedoch eine aufwändige Nachkontrolle und Feedback an das System durch Mitarbeitende erfolgen. Diese Rückmeldungen sollen dem System helfen, zukünftig selbstständig zuverlässig zu arbeiten. Die Führungsebene legt großen Wert auf die Erfüllung der Zielvorgaben.
+
+
+## Items
+
+### Leadership: Cooperation (+) / Coercion (-)
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+SL04
+
+\_01 ...suche ich das Gespräch mit einzelnen Mitarbeitenden, um Lösungen zu finden. (+)
+
+\_02 ...vereinbare ich mit den Mitarbeitenden, wann die geleisteten Überstunden wieder abgebaut werden können. (+)
+
+\_08 ...verhänge ich eine Urlaubssperre, bis die Zielvorgaben erfüllt sind. (-)
+
+\_04 ...weise ich darauf hin, dass Nichterfüllen der Zielvorgaben dazu führt, dass eine Gehaltserhöhnung nicht stattfinden kann. (-)
+
+_09 ...stelle ich eine Bonuszahlung in Aussicht, wenn die Zielvorgaben erfüllt werden. (+)
+
+_10 ...stelle ich dem Team in Zukunft unangenehme Aufgaben in Aussicht, wenn das Ziel nicht erreicht wird. (-)
+
+#### Scenario: Leadership
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL04_01, SL04_02, SL04_09, SL04_08, SL04_04, SL04_10)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Leadership: Cooperative / Coersive Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100; first 3 items: cooperative; last 3 items: coersive.",
+    general_title = "Note: "
+  )
+```
+
+### Employee: Cooperation (+) / Reactance (-)
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+SL04
+
+\_01 ...widme ich mich anderen Tätigkeiten anstatt der Nachkontrolle. (-)
+
+\_02 ...führe ich die Nachkontrolle wie gefordert durch. (+)
+
+\_03 ...teile ich mir die Mehrbelastung mit anderen im Team fair auf. (+)
+
+\_04 ...suche ich das Gespräch mit der Führungskraft, um über die hohe Arbeitsbelastung zu sprechen. (+)
+
+_05 ...äußere ich meinen Unmut über die Situation beim Betriebsrat. (-)
+
+_06 ...mache ich das Gegenteil von dem, was von mir verlangt wird und gebe dem System bewusst falsches Feedback. (-)
+
+#### Scenario: Employee
+
+```{r}
+# 1. Select your target subset
+vars <- data_basic %>% 
+  select(SL05_02, SL05_03, SL05_04, SL05_01, SL05_05, SL05_06)
+
+# 2. Calculate Means and SDs across all columns automatically
+means <- colMeans(vars, na.rm = TRUE)
+sds   <- apply(vars, 2, sd, na.rm = TRUE)
+
+# 3. Calculate Correlation Matrix (your code)
+cor_mat <- cor(vars, use = "pairwise.complete.obs") %>% round(2)
+
+# Format correlations (remove leading 0s for APA style)
+cor_formatted <- apply(cor_mat, c(1, 2), function(x) {
+  sprintf("%.2f", x) %>% gsub("^0\\.", ".", .) %>% gsub("^-0\\.", "-.", .)
+})
+
+# Blank out the upper triangle and diagonal
+cor_formatted[upper.tri(cor_formatted, diag = TRUE)] <- ""
+
+# 4. Combine into a single table data frame
+final_table <- data.frame(
+  Variable = paste0(1:ncol(vars), ". ", colnames(vars)),
+  M        = sprintf("%.2f", means),
+  SD       = sprintf("%.2f", sds),
+  cor_formatted,
+  check.names = FALSE
+)
+
+# Rename correlation columns to 1, 2, 3, 4 to save horizontal space
+colnames(final_table)[4:ncol(final_table)] <- 1:ncol(vars)
+
+# 5. Display with kableExtra
+final_table %>%
+  kbl(
+    caption   = "Scenario Employsee: Cooperative / Reactant Items",
+    align     = c("l", "c", "c", rep("c", ncol(vars))),
+    row.names = FALSE
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = TRUE
+  ) %>%
+  add_header_above(c(" " = 3, "Correlations" = ncol(vars))) %>%
+  footnote(
+    general       = "Scale: 1 - 100; first 3 items: cooperative; last 3 items: reactant.",
+    general_title = "Note: "
+  )
+```
+
+## Order effects leadership scenario
+
+### Cooperation
+<details>
+<summary><b>Click to expand.</b></summary>
+
+Cooperation items. Are there effects of which scenario is presented first for cooperation in the leadership perspective?
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for item: "Suche ich das Gespräch mit den Mitarbeitenden, wann die geleisteten Überstunden wieder abgebaut werden können."
+
+```{r}
+data_basic <- data_basic %>%
+  mutate(
+    order_leadership = factor(
+      case_when(
+      ZU02_01 == 1 ~ "leader first",
+      ZU02_02 == 1 ~ "employee first",
+      TRUE         ~ NA_character_  # Handles cases where neither is 1 (optional)
+    )
+  ))
+
+# Compare means for cooperation: leadership scenario
+means_order_effect_leadership_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_01, SL04_02, SL04_09), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+t.test(SL04_01 ~ order_leadership, data = data_basic)
+cohens_d(SL04_01 ~ order_leadership, data = data_basic)
+
+t.test(SL04_02 ~ order_leadership, data = data_basic)
+cohens_d(SL04_02 ~ order_leadership, data = data_basic)
+
+t.test(SL04_09 ~ order_leadership, data = data_basic)
+cohens_d(SL04_09 ~ order_leadership, data = data_basic)
+```
+
+### Coercion
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+Coercion items. Are there effects of which scenario is presented first for coercion in the leadership perspective?
+Employee first - Leader first; positive values indicate that there is more coersive behavior when the employee scenario is presented first
+
+Expected "empathy effect" for all items. 
+
+
+```{r}
+means_order_effect_leadership_coersive <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL04_08, SL04_04, SL04_10), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL04_08 ~ order_leadership, data = data_basic)
+cohens_d(SL04_08 ~ order_leadership, data = data_basic)
+
+t.test(SL04_04 ~ order_leadership, data = data_basic)
+cohens_d(SL04_04 ~ order_leadership, data = data_basic)
+
+t.test(SL04_10 ~ order_leadership, data = data_basic)
+cohens_d(SL04_10 ~ order_leadership, data = data_basic)
+```
+
+
+## Order effects employee scenario
+
+### Cooperation
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+Cooperation items. Are there effects of which scenario is presented first for cooperation in the employee perspective?
+Employee first - Leader first; positive values indicate that there is more cooperative behavior when the employee scenario is presented first
+
+Expected "empathy effect" for none of the items. However d =.2 for item "suche ich das Gespräch mit der Führungskraft, um über die hohe Arbeitsbelastung zu sprechen."
+
+```{r}
+# Compare means for cooperation: employee scenario
+means_order_effect_employee_cooperation <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_02, SL05_03, SL05_04), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_02 ~ order_leadership, data = data_basic)
+cohens_d(SL05_02 ~ order_leadership, data = data_basic)
+
+t.test(SL05_03 ~ order_leadership, data = data_basic)
+cohens_d(SL05_03 ~ order_leadership, data = data_basic)
+
+t.test(SL05_04 ~ order_leadership, data = data_basic)
+cohens_d(SL05_04 ~ order_leadership, data = data_basic)
+
+
+```
+
+### Reactance
+
+<details>
+<summary><b>Click to expand.</b></summary>
+
+
+Reactance items. Are there effects of which scenario is presented first for reactance in the employee perspective?
+Employee first - Leader first; positive values indicate that there is more reactant behavior when the employee scenario is presented first
+
+More reactant behavior when first presented with leadership scenario for item: "äußere ich meinen Unmut über die Situation beim Betriebsrat"
+
+```{r}
+means_order_effect_employee_reactant <- data_basic %>%
+  group_by(order_leadership) %>%
+  summarise(
+    across(
+      .cols = c(SL05_01, SL05_05, SL05_06), 
+      .fns = ~ mean(.x, na.rm = TRUE),            
+      .names = "mean_{.col}"                      
+    ),
+    .groups = 'drop'
+  )
+
+t.test(SL05_01 ~ order_leadership, data = data_basic)
+cohens_d(SL05_01 ~ order_leadership, data = data_basic)
+
+t.test(SL05_05 ~ order_leadership, data = data_basic)
+cohens_d(SL05_05 ~ order_leadership, data = data_basic)
+
+t.test(SL05_06 ~ order_leadership, data = data_basic)
+cohens_d(SL05_06 ~ order_leadership, data = data_basic)
+```
+
+
+
+
+
